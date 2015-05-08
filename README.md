@@ -17,7 +17,7 @@ Simply drop the two files in your Mixxx controllers directory and select "Hercul
 Mapping
 ------------
 
-Mapping is decribed in the PDF file
+Mapping is decribed in the [PDF file](https://github.com/sblaisot/mixxx-controller-Hercules-dj-control-mp3-e2/blob/master/Mapping%20for%20Mixxx.pdf)
 
 Status
 -------
