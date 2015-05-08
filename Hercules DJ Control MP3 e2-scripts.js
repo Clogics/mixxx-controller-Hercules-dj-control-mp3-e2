@@ -335,7 +335,11 @@ HerculesMP3e2.keyButton = function (midino, control, value, status, group)
 		// Simple press: go to the hotcue position
 		// Shift (hold down "Automix"): clear the hotcue
 		case 0x05: case 0x19 :	// K5
-			if (superButtonHold == 1) 
+			if (superButtonHold == 2 && value) 
+			{
+			       //Nothing
+			}
+                        else if (superButtonHold == 1) 
 			{
 				//HerculesMP3e2.holdButton(group, value, "hotcue_1_set", "hotcue_1_clear");
 				engine.setValue(group, "hotcue_1_clear", value ? 1 : 0);
@@ -347,7 +351,11 @@ HerculesMP3e2.keyButton = function (midino, control, value, status, group)
 			break;
 
 		case 0x06: case 0x1A:	// K6
-			if (superButtonHold == 1) 
+			if (superButtonHold == 2 && value) 
+			{
+			       //Nothing
+			}
+                        else if (superButtonHold == 1) 
 			{
 				//HerculesMP3e2.holdButton(group, value, "hotcue_2_set", "hotcue_2_clear");
 				engine.setValue(group, "hotcue_2_clear", value ? 1 : 0);
@@ -359,7 +367,11 @@ HerculesMP3e2.keyButton = function (midino, control, value, status, group)
 			break;
 
 		case 0x07: case 0x1B:	// K7
-			if (superButtonHold == 1) 
+			if (superButtonHold == 2 && value) 
+			{
+			       //Nothing
+			}
+                        else if (superButtonHold == 1) 
 			{
 				//HerculesMP3e2.holdButton(group, value, "hotcue_3_set", "hotcue_3_clear");
 				engine.setValue(group, "hotcue_3_clear", value ? 1 : 0);
@@ -371,7 +383,11 @@ HerculesMP3e2.keyButton = function (midino, control, value, status, group)
 			break;
 
 		case 0x08: case 0x1C:	// K8
-			if (superButtonHold == 1) 
+			if (superButtonHold == 2 && value) 
+			{
+			       //Nothing
+			}
+                        else if (superButtonHold == 1) 
 			{
 				//HerculesMP3e2.holdButton(group, value, "hotcue_4_set", "hotcue_4_clear");
 				engine.setValue(group, "hotcue_4_clear", value ? 1 : 0);
@@ -389,7 +405,11 @@ HerculesMP3e2.pitch = function (midino, control, value, status, group)
 	// Simple: pitch slider
 	// Shifted: Headphone volume and pre/main
 	
-	if (superButtonHold == 1) 
+	if (superButtonHold == 2) 
+	{
+		//Nothing
+	}
+	else if (superButtonHold == 1) 
 	{
 		sign = (value == 0x01) ? 1 : -1;
 		
