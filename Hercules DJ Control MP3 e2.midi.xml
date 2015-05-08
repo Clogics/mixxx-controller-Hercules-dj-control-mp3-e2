@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<MixxxMIDIPreset schemaVersion="1" mixxxVersion="1.8.0+">
+<MixxxMIDIPreset schemaVersion="1" mixxxVersion="1.12.0+">
   <info>
     <name>Hercules DJ Control MP3 e2</name>
     <author>Gianfe</author>
@@ -580,6 +580,7 @@
         <minimum>0</minimum>
         <maximum>10000000</maximum>
       </output>
+<!--
        <output>
         <group>[Channel1]</group>
         <key>flanger</key>
@@ -596,6 +597,7 @@
         <minimum>0.5</minimum>
         <maximum>1</maximum>
       </output>
+-->
       <output>
         <group>[Channel1]</group>
         <key>hotcue_1_enabled</key>

@@ -234,11 +234,9 @@ HerculesMP3e2.scroll = function (midino, control, value, status, group)
 	if(value == 0x7F) 
 	{
             if(control == 0x2C)
-            {
-                    group = "[Channel1]"; 
-            }
-            else group = "[Channel2]";
-	    engine.setValue(group, "flanger", (engine.getValue(group, "flanger") == 0) ? 1 : 0);
+                    engine.setValue("[Playlist]", "ToggleSelectedSidebarItem", value ? 1 : 0); 
+            else 
+		    engine.setValue("[Playlist]", "ToggleSelectedSidebarItem", value ? 1 : 0);
 	}
 };
 
