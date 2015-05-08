@@ -518,9 +518,21 @@ HerculesMP3e2.scratch = function (midino, control, value, status, group)
         if (value)
         {
             superButtonHold = 2;
+	    midi.sendShortMsg(0x90, 78, 0x7F);	// Blink Pitchbend - DB
+            midi.sendShortMsg(0x90, 79, 0x7F);  // Blink Pitchbend + DB
+	    midi.sendShortMsg(0x90, 58, 0x7F);  // Blink Pitchbend - DA
+	    midi.sendShortMsg(0x90, 59, 0x7F);  // Blink Pitchbend + DA
+	    midi.sendShortMsg(0x90, 67, 0x7F);	// Blink Master tempo DA 
+	    midi.sendShortMsg(0x90, 87, 0x7F);  // Blink Master tempo DB
         }
         else
         {
+	    midi.sendShortMsg(0x90, 78, 0x00);	// Blink Pitchbend - DB
+            midi.sendShortMsg(0x90, 79, 0x00);  // Blink Pitchbend + DB
+	    midi.sendShortMsg(0x90, 58, 0x00);  // Blink Pitchbend - DA
+	    midi.sendShortMsg(0x90, 59, 0x00);  // Blink Pitchbend + DA
+	    midi.sendShortMsg(0x90, 67, 0x00);	// Blink Master tempo DA 
+	    midi.sendShortMsg(0x90, 87, 0x00);  // Blink Master tempo DB
             if (automixPressed)
             {
                 superButtonHold = 1;
