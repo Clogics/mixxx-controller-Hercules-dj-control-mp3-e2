@@ -1,0 +1,8 @@
+
+Changes from last mapping posted on Mixxx forums
+
+- Clean some double declarations in midi xml file
+- Blink some leds when supershift (automix + scratch) is pressed to differentiate with swhift (automix pressed only)
+- Add expand/collapse selected library sidebar item
+- Add load and play for sampler1 and sampler 2
+- Added Quick filter action to supershifted pitch knob

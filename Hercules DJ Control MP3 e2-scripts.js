@@ -436,7 +436,21 @@ HerculesMP3e2.pitch = function (midino, control, value, status, group)
 	
 	if (superButtonHold == 2) 
 	{
-		//Nothing
+		sign = (value == 0x01) ? 1 : -1;
+		
+		if (group == "[Channel1]") 
+		{
+			newValue = HerculesMP3e2.knobIncrement("[QuickEffectRack1_[Channel1]]", "super1", 0, 1, 0.5, 20, sign);
+			script.midiDebug("[QuickEffectRack1_[Channel1]]", "super1", engine.getValue("[QuickEffectRack1_[Channel1]]", "super1"), status, "[QuickEffectRack1_[Channel1]]")
+			engine.setValue("[QuickEffectRack1_[Channel1]]", "super1", newValue);
+		}
+		if (group == "[Channel2]") 
+		{
+//			newValue = HerculesMP3e2.knobIncrement("[Master]", "headMix", -1, 1, 0, 20, sign);
+//			engine.setValue("[Master]", "headMix", newValue);
+			newValue = HerculesMP3e2.knobIncrement("[QuickEffectRack1_[Channel2]]", "super1", 0, 1, 0.5, 20, sign);
+			engine.setValue("[QuickEffectRack1_[Channel2]]", "super1", newValue);
+		}
 	}
 	else if (superButtonHold == 1) 
 	{

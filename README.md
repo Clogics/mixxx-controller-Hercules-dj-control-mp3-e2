@@ -28,6 +28,5 @@ More work has to be done.
 TODO
 ------
 
-- Add filter control to knob pitch (supershift not used already)
 - Add Mastersync (like long click on sync button)
 - Add deck shift to make it 4-decks compatible (good candidates are folder/files keys)
