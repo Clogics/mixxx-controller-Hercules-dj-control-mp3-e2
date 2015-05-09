@@ -30,5 +30,4 @@ TODO
 
 - Add filter control to knob pitch (supershift not used already)
 - Add Mastersync (like long click on sync button)
-- Load and play track into sampler
 - Add deck shift to make it 4-decks compatible (good candidates are folder/files keys)

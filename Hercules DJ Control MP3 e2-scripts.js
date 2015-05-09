@@ -183,12 +183,22 @@ HerculesMP3e2.loadTrack = function (midino, control, value, status, group)
 	// Load the selected track in the corresponding deck only if the track is 
 	// paused
 
-	if(value && engine.getValue(group, "play") != 1) 
+	var deck = group;
+	if (superButtonHold == 1)
 	{
-		engine.setValue(group, "LoadSelectedTrack", 1);
-		engine.setValue(group, "rate", 0);
+		if (control == 0x11)
+		  { 
+			deck = "[Sampler1]";
+		  } else {
+			deck = "[Sampler2]";
+		  }
 	}
-	else engine.setValue(group, "LoadSelectedTrack", 0);
+	if(value && engine.getValue(deck, "play") != 1) 
+	{
+		engine.setValue(deck, "LoadSelectedTrack", 1);
+		engine.setValue(deck, "rate", 0);
+	}
+	else engine.setValue(deck, "LoadSelectedTrack", 0);
 };
 
 HerculesMP3e2.scroll = function (midino, control, value, status, group) 
@@ -231,12 +241,23 @@ HerculesMP3e2.scroll = function (midino, control, value, status, group)
 //	engine.setValue("[Playlist]", "SelectNextTrack", "0");
 //}
 
-	if(value == 0x7F) 
+       	if (superButtonHold >= 1)
 	{
-            if(control == 0x2C)
-                    engine.setValue("[Playlist]", "ToggleSelectedSidebarItem", value ? 1 : 0); 
-            else 
-		    engine.setValue("[Playlist]", "ToggleSelectedSidebarItem", value ? 1 : 0);
+		if (value)
+		{
+			if (control == 0x2C)
+				engine.setValue("[Sampler1]", "play", !(engine.getValue("[sampler1]", "play")));
+			else
+				engine.setValue("[Sampler2]", "play", !(engine.getValue("[sampler2]", "play")));		
+		}
+	} else {
+		if (value == 0x7F) 
+		{
+			if (control == 0x2C)
+				engine.setValue("[Playlist]", "ToggleSelectedSidebarItem", value ? 1 : 0); 
+			else 
+				engine.setValue("[Playlist]", "ToggleSelectedSidebarItem", value ? 1 : 0);
+		}
 	}
 };
 
