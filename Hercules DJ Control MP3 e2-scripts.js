@@ -241,15 +241,23 @@ HerculesMP3e2.scroll = function (midino, control, value, status, group)
 //	engine.setValue("[Playlist]", "SelectNextTrack", "0");
 //}
 
+        var deck = "";
+
        	if (superButtonHold >= 1)
 	{
 		if (value)
 		{
 			if (control == 0x2C)
-				engine.setValue("[Sampler1]", "play", !(engine.getValue("[sampler1]", "play")));
+				deck = "[Sampler1]";
 			else
-				engine.setValue("[Sampler2]", "play", !(engine.getValue("[sampler2]", "play")));		
+				deck = "[Sampler2]"
+
+			if (engine.getValue(deck, "play") == 0)
+				engine.setValue(deck, "play", 1);
+			else
+				engine.setValue(deck,"stop",1);
 		}
+		
 	} else {
 		if (value == 0x7F) 
 		{
