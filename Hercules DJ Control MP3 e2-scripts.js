@@ -124,12 +124,12 @@ HerculesMP3e2.automix = function (midino, control, value, status, group)
 		superButtonHold = 1;
                 automixPressed = true;
 		// Switch-on some LEDs
-		midi.sendShortMsg(0x90, 30, 0x7F);	// Pitchbend - DB
+		midi.sendShortMsg(0x90, 30, 0x7F);  // Pitchbend - DB
 		midi.sendShortMsg(0x90, 31, 0x7F);  // Pitchbend + DB
 		midi.sendShortMsg(0x90, 10, 0x7F);  // Pitchbend - DA
 		midi.sendShortMsg(0x90, 11, 0x7F);  // Pitchbend + DA
-		midi.sendShortMsg(0x90, 19, 0x7F);	// Master tempo DA 
-		midi.sendShortMsg(0x90, 39, 0x7F);  // Master tempo DB
+		midi.sendShortMsg(0x90, 18, 0x7F);  // Sync DA 
+		midi.sendShortMsg(0x90, 38, 0x7F);  // Sync DB
 	}
 	// Button released
 	else
@@ -144,8 +144,8 @@ HerculesMP3e2.automix = function (midino, control, value, status, group)
 		midi.sendShortMsg(0x90, 31, 0x00);  // Pitchbend + DB
 		midi.sendShortMsg(0x90, 10, 0x00);  // Pitchbend - DA
 		midi.sendShortMsg(0x90, 11, 0x00);  // Pitchbend + DA
-		midi.sendShortMsg(0x90, 19, 0x00);	// Master tempo DA 
-		midi.sendShortMsg(0x90, 39, 0x00);  // Master tempo DB
+		midi.sendShortMsg(0x90, 18, 0x00);  // Sync DA 
+		midi.sendShortMsg(0x90, 38, 0x00);  // Sync DB
 	}
 };
 
@@ -585,21 +585,21 @@ HerculesMP3e2.scratch = function (midino, control, value, status, group)
         if (value)
         {
             superButtonHold = 2;
-	    midi.sendShortMsg(0x90, 78, 0x7F);	// Blink Pitchbend - DB
+	    midi.sendShortMsg(0x90, 78, 0x7F);  // Blink Pitchbend - DB
 	    midi.sendShortMsg(0x90, 79, 0x7F);  // Blink Pitchbend + DB
 	    midi.sendShortMsg(0x90, 58, 0x7F);  // Blink Pitchbend - DA
 	    midi.sendShortMsg(0x90, 59, 0x7F);  // Blink Pitchbend + DA
-	    midi.sendShortMsg(0x90, 67, 0x7F);	// Blink Master tempo DA 
-	    midi.sendShortMsg(0x90, 87, 0x7F);  // Blink Master tempo DB
+	    midi.sendShortMsg(0x90, 66, 0x7F);  // Blink Sync DA 
+	    midi.sendShortMsg(0x90, 86, 0x7F);  // Blink Sync DB
         }
         else
         {
-	    midi.sendShortMsg(0x90, 78, 0x00);	// Blink Pitchbend - DB
+	    midi.sendShortMsg(0x90, 78, 0x00);  // Blink Pitchbend - DB
 	    midi.sendShortMsg(0x90, 79, 0x00);  // Blink Pitchbend + DB
 	    midi.sendShortMsg(0x90, 58, 0x00);  // Blink Pitchbend - DA
 	    midi.sendShortMsg(0x90, 59, 0x00);  // Blink Pitchbend + DA
-	    midi.sendShortMsg(0x90, 67, 0x00);	// Blink Master tempo DA 
-	    midi.sendShortMsg(0x90, 87, 0x00);  // Blink Master tempo DB
+	    midi.sendShortMsg(0x90, 66, 0x00);  // Blink Sync DA 
+	    midi.sendShortMsg(0x90, 86, 0x00);  // Blink Sync DB
             if (automixPressed)
             {
                 superButtonHold = 1;
