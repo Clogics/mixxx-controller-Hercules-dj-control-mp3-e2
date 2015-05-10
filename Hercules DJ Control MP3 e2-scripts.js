@@ -169,7 +169,8 @@ HerculesMP3e2.masterTempo = function (midino, control, value, status, group)
 			engine.setValue(group, "loop_out", 0);
 		}
 */
-		engine.setValue(group, "quantize", !(engine.getValue(group, "quantize")));
+		if (value)
+			engine.setValue(group, "quantize", !(engine.getValue(group, "quantize")));
 
         }
 	else if (superButtonHold == 1 && value && scratchMode == 0)
