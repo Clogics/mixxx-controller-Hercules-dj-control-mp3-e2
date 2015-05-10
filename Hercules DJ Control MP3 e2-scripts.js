@@ -100,6 +100,8 @@ HerculesMP3e2.init = function (id)
 	engine.connectControl("[Channel2]", "loop_start_position", "HerculesMP3e2.loopStartSetLeds");
 	engine.connectControl("[Channel1]", "loop_end_position", "HerculesMP3e2.loopEndSetLeds");
 	engine.connectControl("[Channel2]", "loop_end_position", "HerculesMP3e2.loopEndSetLeds");
+	engine.connectControl("[Channel1]", "sync_mode", "HerculesMP3e2.syncmode");
+	engine.connectControl("[Channel2]", "sync_mode", "HerculesMP3e2.syncmode");
 };
 
 
@@ -713,6 +715,49 @@ HerculesMP3e2.jogWheel = function (midino, control, value, status, group)
 	}
 };
 
+
+HerculesMP3e2.syncmode = function (value, group, control) {
+	
+	if (value == 2) //Master => Blink
+	{
+		if (group == "[Channel1]") 
+		{
+			midi.sendShortMsg(0x90,19,0x00) //fixed off
+			midi.sendShortMsg(0x90,67,0x7F) //blink on
+		}
+		else if (group == "[Channel2]")
+		{
+			midi.sendShortMsg(0x90,39,0x00) //fixed off
+			midi.sendShortMsg(0x90,87,0x7F) //blink on
+		}
+	}
+	else if (value == 1) //Follower => fixed
+	{
+		if (group == "[Channel1]") 
+		{
+			midi.sendShortMsg(0x90,67,0x00) //blink off
+			midi.sendShortMsg(0x90,19,0x7F) //fixed on
+		}
+		else if (group == "[Channel2]")
+		{
+			midi.sendShortMsg(0x90,87,0x00) //blink off
+			midi.sendShortMsg(0x90,39,0x7F) //fixed on
+		}
+	}
+	else if (value == 0) //None => led off
+	{
+		if (group == "[Channel1]") 
+		{
+			midi.sendShortMsg(0x90,67,0x00) //blink off
+			midi.sendShortMsg(0x90,19,0x00) //fixed off
+		}
+		else if (group == "[Channel2]")
+		{
+			midi.sendShortMsg(0x90,87,0x00) //blink off
+			midi.sendShortMsg(0x90,39,0x00) //fixed off
+		}
+	}
+}
 
 // This function switch-on the blinking of the cue led when the track is going to end and switch off the led 
 // when the track is ended
