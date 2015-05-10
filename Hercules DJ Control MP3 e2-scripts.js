@@ -181,7 +181,7 @@ HerculesMP3e2.masterTempo = function (midino, control, value, status, group)
 	}
 	else if (value)
 	{
-		engine.setValue(group, "sync_mode", (engine.getValue(group, "sync_mode") == 2) ? 0 : 2);
+		engine.setValue(group, "sync_mode", (engine.getValue(group, "sync_mode") != 0) ? 0 : 2);
 	}
 };
 
