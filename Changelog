@@ -2,7 +2,9 @@
 Changes from last mapping posted on Mixxx forums
 
 - Clean some double declarations in midi xml file
+- Make it 1.12 compatible, removing flanger effect references
 - Blink some leds when supershift (automix + scratch) is pressed to differentiate with swhift (automix pressed only)
 - Add expand/collapse selected library sidebar item
 - Add load and play for sampler1 and sampler 2
 - Added Quick filter action to supershifted pitch knob
+- Added Sync-master to Master Tempo key. moved Magnet to Supershift-Master tempo. Removed one-button loops.

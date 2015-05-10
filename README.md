@@ -28,5 +28,5 @@ More work has to be done.
 TODO
 ------
 
-- Add Mastersync (like long click on sync button)
+- Add sync_master LED on master_tempo key
 - Add deck shift to make it 4-decks compatible (good candidates are folder/files keys)

@@ -155,26 +155,30 @@ HerculesMP3e2.masterTempo = function (midino, control, value, status, group)
 {
         if (superButtonHold == 2)
         {
-                if (value)
-                {
-                        //LOOP In
+/*
+ 		if (value)
+		{
+			//LOOP In
 			engine.setValue(group, "loop_in", 1);
 			engine.setValue(group, "loop_in", 0);
-                } 
-                else
-                {
-                        //LOOP Out
+		} 
+		else
+		{
+			//LOOP Out
 			engine.setValue(group, "loop_out", 1);
 			engine.setValue(group, "loop_out", 0);
-                }
+		}
+*/
+		engine.setValue(group, "quantize", !(engine.getValue(group, "quantize")));
+
         }
-	if (superButtonHold == 1 && value && scratchMode == 0)
+	else if (superButtonHold == 1 && value && scratchMode == 0)
 	{
         	engine.setValue(group, "keylock", (engine.getValue(group, "keylock") == 0) ? 1 : 0);
 	}
-	if (superButtonHold == 0 && value)
+	else if (value)
 	{
-	        engine.setValue(group, "quantize", !(engine.getValue(group, "quantize")));
+		engine.setValue(group, "sync_mode", (engine.getValue(group, "sync_mode") == 2) ? 0 : 2);
 	}
 };
 
@@ -441,7 +445,6 @@ HerculesMP3e2.pitch = function (midino, control, value, status, group)
 		if (group == "[Channel1]") 
 		{
 			newValue = HerculesMP3e2.knobIncrement("[QuickEffectRack1_[Channel1]]", "super1", 0, 1, 0.5, 20, sign);
-			script.midiDebug("[QuickEffectRack1_[Channel1]]", "super1", engine.getValue("[QuickEffectRack1_[Channel1]]", "super1"), status, "[QuickEffectRack1_[Channel1]]")
 			engine.setValue("[QuickEffectRack1_[Channel1]]", "super1", newValue);
 		}
 		if (group == "[Channel2]") 
