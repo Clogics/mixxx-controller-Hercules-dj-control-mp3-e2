@@ -26,7 +26,14 @@ secondsBlink = 30;
 // Tune the jog sensitivity when the scratch mode is disabled (default = 1, increase for increase the sensitivity
 jogSensitivity = 0.8;
 
-
+// Lower jog sensitivity when selecting playlists
+// Count each step until jogPlaylistSensitivityDivider is reached, then change Playlist
+//
+// TODO : add a jogPlaylistCounter reset timer if no jogWheel move is done for some time
+//
+var jogPlaylistSensitivityDivider = 3;
+var jogPlaylistSense = 0;
+var jogPlaylistCounter = 0;
 
 superButtonHold = 0;
 automixPressed = false;
@@ -683,35 +690,75 @@ HerculesMP3e2.jogWheel = function (midino, control, value, status, group)
 	// This function is called everytime the jog is moved
 	if (value == 0x01) 
 	{
-                if (superButtonHold == 2)
-                {
-                	engine.setValue("[Playlist]", (deck == 1) ? "SelectNextPlaylist" : "SelectNextTrack", 1);
-                }
-                else
-                {
-		        if (scratchMode) {
-		        	engine.scratchTick(deck, 1);
-		        	wheelMove[deck-1] = 1;
-	        	}
-	        	else
-	        		engine.setValue(group, "jog", jogSensitivity);
-                }
+		if (superButtonHold == 2)
+		{
+			if (deck == 1)
+			{
+				if (jogPlaylistSense != 1)
+				{
+					jogPlaylistSense = 1;
+					jogPlaylistCounter = jogPlaylistSensitivityDivider; // Force doing it NOW as we changes rotation sense
+				}
+				else
+				{
+					jogPlaylistCounter += 1;
+				}
+				if (jogPlaylistCounter >= jogPlaylistSensitivityDivider)
+				{
+					jogPlaylistCounter = 0;
+					engine.setValue("[Playlist]", "SelectNextPlaylist", 1);
+				}
+			}
+			else
+			{
+				engine.setValue("[Playlist]", "SelectNextTrack", 1);
+			}
+		}
+		else
+		{
+			if (scratchMode) {
+				engine.scratchTick(deck, 1);
+				wheelMove[deck-1] = 1;
+			}
+			else
+				engine.setValue(group, "jog", jogSensitivity);
+		}
 	}
 	else 
 	{
-                if (superButtonHold == 2)
-                {
-                	engine.setValue("[Playlist]", (deck == 1) ? "SelectPrevPlaylist" : "SelectPrevTrack", 1);
-                }
-                else
-                {
-		        if (scratchMode) {
-		        	engine.scratchTick(deck, -1);
-		        	wheelMove[deck-1] = 1;
-		        }
-		        else
-		        	engine.setValue(group, "jog", -jogSensitivity); 
-                }
+		if (superButtonHold == 2)
+		{
+			if (deck == 1)
+			{
+				if (jogPlaylistSense != -1)
+				{
+					jogPlaylistSense = -1;
+					jogPlaylistCounter = jogPlaylistSensitivityDivider; // Force doing it NOW as we changes rotation sense
+				}
+				else
+				{
+					jogPlaylistCounter += 1;
+				}
+				if (jogPlaylistCounter >= jogPlaylistSensitivityDivider)
+				{
+					jogPlaylistCounter = 0;
+					engine.setValue("[Playlist]", "SelectPrevPlaylist", 1);
+				}
+			}
+			else
+			{
+				engine.setValue("[Playlist]", "SelectPrevTrack", 1);
+			}
+		}
+		else
+		{
+			if (scratchMode) {
+				engine.scratchTick(deck, -1);
+				wheelMove[deck-1] = 1;
+			}
+			else
+				engine.setValue(group, "jog", -jogSensitivity); 
+		}
 	}
 };
 
