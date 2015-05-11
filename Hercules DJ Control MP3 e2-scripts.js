@@ -257,7 +257,7 @@ HerculesMP3e2.scroll = function (midino, control, value, status, group)
 
         var deck = "";
 
-       	if (superButtonHold >= 1)
+       	if (superButtonHold == 2)
 	{
 		if (value)
 		{
@@ -266,10 +266,20 @@ HerculesMP3e2.scroll = function (midino, control, value, status, group)
 			else
 				deck = "[Sampler2]"
 
-			if (engine.getValue(deck, "play") == 0)
-				engine.setValue(deck, "play", 1);
-			else
 				engine.setValue(deck,"stop",1);
+		}
+		
+	}
+	else if (superButtonHold == 1)
+	{
+		if (value)
+		{
+			if (control == 0x2C)
+				deck = "[Sampler1]";
+			else
+				deck = "[Sampler2]"
+
+				engine.setValue(deck, "start_play", 1);
 		}
 		
 	} else {
