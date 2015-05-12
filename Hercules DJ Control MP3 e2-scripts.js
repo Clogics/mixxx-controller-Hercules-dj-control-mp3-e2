@@ -120,6 +120,8 @@ HerculesMP3e2.init = function (id)
 	midi.sendShortMsg(0x90, 14, 0x7F);	// Cue deck A LED
 	midi.sendShortMsg(0x90, 34, 0x7F);	// Cue deck B LED
 	
+	// TODO: Move every connectControl to 4-deck
+	
 	engine.connectControl("[Channel1]", "playposition", "HerculesMP3e2.playPositionCue");
 	engine.connectControl("[Channel2]", "playposition", "HerculesMP3e2.playPositionCue");
 	engine.connectControl("[Channel1]", "loop_start_position", "HerculesMP3e2.loopStartSetLeds");
@@ -312,15 +314,10 @@ HerculesMP3e2.loadTrack = function (midino, control, value, status, group)
 	}
 	else
 	{
-		var deck = group;
+		var deck = HerculesMP3e2.switchDeck(group);;
 		if (superButtonHold == 1)
 		{
-			if (control == 0x11)
-			{ 
-				deck = "[Sampler1]";
-			} else {
-				deck = "[Sampler2]";
-			}
+			deck = deck.replace("Channel","Sampler");
 		}
 		
 		if(value && engine.getValue(deck, "play") != 1) // Load the selected track in the corresponding deck only if the track is paused
