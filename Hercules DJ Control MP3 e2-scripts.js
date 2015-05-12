@@ -47,7 +47,7 @@ automixPressed = false;
 scratchButton = 0;
 scratchMode = 0;
 scratchTimer = 0;
-wheelMove = [0,0];
+wheelMove = [0,0,0,0];
 pitchIncrementRelative = 0;
 //scratchFactor = 0;
 //jogPitchFactor = 0;
@@ -699,17 +699,18 @@ HerculesMP3e2.scratch = function (midino, control, value, status, group)
 		// Enable the scratch mode on the corrisponding deck and start the timer
 			scratchMode = 1;
 			scratchTimer = engine.beginTimer(scratchResetTime, "HerculesMP3e2.wheelOnOff()");	
-			midi.sendShortMsg(0x90, 45, 0x7F); // Switch-on the sync led
+			midi.sendShortMsg(0x90, 45, 0x7F); // Switch-on the Scratch led
 			engine.setValue("[Channel1]", "keylock", 0);
 			engine.setValue("[Channel2]", "keylock", 0);
-		
+			engine.setValue("[Channel3]", "keylock", 0);
+			engine.setValue("[Channel4]", "keylock", 0);
 		}
 		else 
 		{
 		// Disable the scratch mode on the corrisponding deck and stop the timer
 			scratchMode = 0;
 			engine.stopTimer(scratchTimer);
-			midi.sendShortMsg(0x90, 45, 0x00); // Switch-off the sync led
+			midi.sendShortMsg(0x90, 45, 0x00); // Switch-off the Scratch led
 		}
 	
 	}
@@ -742,27 +743,36 @@ HerculesMP3e2.sync = function (midino, control, value, status, group)
 
 HerculesMP3e2.wheelOnOff = function () {
 	
-	// Wheel Deck A
+	// Wheel Deck A / Channel 1
 	if (wheelMove[0]) engine.scratchEnable(1, 128, standardRpm, alpha, beta);
 	else engine.scratchDisable(1);
 	wheelMove[0] = 0;
-	//Wheel Deck B
+	//Wheel Deck B / Channel 2
 	if (wheelMove[1]) engine.scratchEnable(2, 128, standardRpm, alpha, beta);
 	else engine.scratchDisable(2);
 	wheelMove[1] = 0;
+	
+	// Wheel Deck A / Channel 3
+	if (wheelMove[2]) engine.scratchEnable(3, 128, standardRpm, alpha, beta);
+	else engine.scratchDisable(3);
+	wheelMove[2] = 0;
+	//Wheel Deck B / Channel 4
+	if (wheelMove[3]) engine.scratchEnable(4, 128, standardRpm, alpha, beta);
+	else engine.scratchDisable(4);
+	wheelMove[3] = 0;
 };
 
 
 HerculesMP3e2.jogWheel = function (midino, control, value, status, group) 
 {
-	var deck = (group == "[Channel1]") ? 1 : 2;
+	var deck = (group == "[Channel1]") ? deckA : deckB;
 	
 	// This function is called everytime the jog is moved
 	if (value == 0x01) 
 	{
 		if (superButtonHold == 2)
 		{
-			if (deck == 1)
+			if ((deck == 1) || (deck == 3))
 			{
 				if (jogPlaylistSense != 1)
 				{
@@ -791,14 +801,14 @@ HerculesMP3e2.jogWheel = function (midino, control, value, status, group)
 				wheelMove[deck-1] = 1;
 			}
 			else
-				engine.setValue(group, "jog", jogSensitivity);
+				engine.setValue("[Channel"+deck+"]", "jog", jogSensitivity);
 		}
 	}
 	else 
 	{
 		if (superButtonHold == 2)
 		{
-			if (deck == 1)
+			if ((deck == 1) || (deck == 3))
 			{
 				if (jogPlaylistSense != -1)
 				{
@@ -827,7 +837,7 @@ HerculesMP3e2.jogWheel = function (midino, control, value, status, group)
 				wheelMove[deck-1] = 1;
 			}
 			else
-				engine.setValue(group, "jog", -jogSensitivity); 
+				engine.setValue("[Channel"+deck+"]", "jog", -jogSensitivity); 
 		}
 	}
 };
