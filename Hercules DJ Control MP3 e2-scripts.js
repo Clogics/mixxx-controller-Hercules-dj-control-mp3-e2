@@ -314,7 +314,7 @@ HerculesMP3e2.loadTrack = function (midino, control, value, status, group)
 	}
 	else
 	{
-		var deck = HerculesMP3e2.switchDeck(group);;
+		var deck = HerculesMP3e2.switchDeck(group);
 		if (superButtonHold == 1)
 		{
 			deck = deck.replace("Channel","Sampler");
@@ -340,35 +340,6 @@ HerculesMP3e2.scroll = function (midino, control, value, status, group)
         // new function:
         // Enable/disable the flanger effect
 
-//if(control == 0x2C && value == 0x7F) 
-//{
-//	engine.setValue("[Playlist]", "SelectPrevTrack", "1");
-//	engine.setValue("[Playlist]", "SelectPrevTrack", "1");
-//	engine.setValue("[Playlist]", "SelectPrevTrack", "1");
-//	engine.setValue("[Playlist]", "SelectPrevTrack", "1");
-//	engine.setValue("[Playlist]", "SelectPrevTrack", "1");
-//	engine.setValue("[Playlist]", "SelectPrevTrack", "1");
-//	engine.setValue("[Playlist]", "SelectPrevTrack", "1");
-//	engine.setValue("[Playlist]", "SelectPrevTrack", "1");
-//	engine.setValue("[Playlist]", "SelectPrevTrack", "1");
-//	engine.setValue("[Playlist]", "SelectPrevTrack", "1");
-//	engine.setValue("[Playlist]", "SelectPrevTrack", "0");
-//}
-//if (control == 0x2B && value == 0x7F) 
-//{
-//	engine.setValue("[Playlist]", "SelectNextTrack", "1");
-//	engine.setValue("[Playlist]", "SelectNextTrack", "1");
-//	engine.setValue("[Playlist]", "SelectNextTrack", "1");
-//	engine.setValue("[Playlist]", "SelectNextTrack", "1");
-//	engine.setValue("[Playlist]", "SelectNextTrack", "1");
-//	engine.setValue("[Playlist]", "SelectNextTrack", "1");
-//	engine.setValue("[Playlist]", "SelectNextTrack", "1");
-//	engine.setValue("[Playlist]", "SelectNextTrack", "1");
-//	engine.setValue("[Playlist]", "SelectNextTrack", "1");
-//	engine.setValue("[Playlist]", "SelectNextTrack", "1");
-//	engine.setValue("[Playlist]", "SelectNextTrack", "0");
-//}
-
         var deck = "";
 
        	if (superButtonHold == 2)
@@ -376,9 +347,9 @@ HerculesMP3e2.scroll = function (midino, control, value, status, group)
 		if (value)
 		{
 			if (control == 0x2C)
-				deck = "[Sampler1]";
+				deck = "[Sampler"+deckA+"]";
 			else
-				deck = "[Sampler2]"
+				deck = "[Sampler"+deckB+"]"
 
 				engine.setValue(deck,"stop",1);
 		}
@@ -389,9 +360,9 @@ HerculesMP3e2.scroll = function (midino, control, value, status, group)
 		if (value)
 		{
 			if (control == 0x2C)
-				deck = "[Sampler1]";
+				deck = "[Sampler"+deckA+"]";
 			else
-				deck = "[Sampler2]"
+				deck = "[Sampler"+deckB+"]"
 
 				engine.setValue(deck, "start_play", 1);
 		}
