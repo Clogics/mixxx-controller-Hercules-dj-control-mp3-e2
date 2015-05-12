@@ -215,26 +215,29 @@ HerculesMP3e2.loadTrack = function (midino, control, value, status, group)
 {
 	if (superButtonHold == 2)
 	{
-		// Deck switch between 1/3 or 2/4
-		if (control == 0x11)
-		{ 
-			deckA = (deckA == 1) ? 3 : 1; //Switch Deck
-			if (deckA == 3)
-				midi.sendShortMsg(0x90, 44, 0x7F); // Folder Led On if Deck A = [Channel3]
-			else
-				midi.sendShortMsg(0x90, 44, 0x00); // Folder Led Off if Deck A = [Channel1]
+		if (value)
+		{
+			// Deck switch between 1/3 or 2/4
+			if (control == 0x11)
+			{ 
+				deckA = (deckA == 1) ? 3 : 1; //Switch Deck
+				if (deckA == 3)
+					midi.sendShortMsg(0x90, 44, 0x7F); // Folder Led On if Deck A = [Channel3]
+				else
+					midi.sendShortMsg(0x90, 44, 0x00); // Folder Led Off if Deck A = [Channel1]
 		
-			if (debug)
-				print("Switched Deck A to [Channel"+deckA+"]");
-		} else {
-			deckB = (deckB == 2) ? 4 : 2;
-			if (deckB == 4)
-				midi.sendShortMsg(0x90, 43, 0x7F); // Folder Led On if Deck B = [Channel4]
-			else
-				midi.sendShortMsg(0x90, 43, 0x00); // Folder Led Off if Deck B = [Channel2]
+				if (debug)
+					print("Switched Deck A to [Channel"+deckA+"]");
+			} else {
+				deckB = (deckB == 2) ? 4 : 2;
+				if (deckB == 4)
+					midi.sendShortMsg(0x90, 43, 0x7F); // Folder Led On if Deck B = [Channel4]
+				else
+					midi.sendShortMsg(0x90, 43, 0x00); // Folder Led Off if Deck B = [Channel2]
 
-			if (debug)
-				print("Switched Deck B to [Channel"+deckB+"]");
+				if (debug)
+					print("Switched Deck B to [Channel"+deckB+"]");
+			}
 		}
 
 	}
