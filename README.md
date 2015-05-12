@@ -25,7 +25,13 @@ Status
 This configuration is work in progress. you can encounter bugs when using it.
 More work has to be done.
 
+In progress
+-----------
+
+Work on 4-deck compatible mapping is in progress. You can check it in the 4-deck branch.
+Be warn that 4-deck mapping is under heavy development and not all controls are working with switched decks
+
 TODO
 ------
 
-- Add deck shift to make it 4-decks compatible (good candidates are folder/files keys)
+- Add deck shift to make it 4-decks compatible (Supershift-LoadA/B)
