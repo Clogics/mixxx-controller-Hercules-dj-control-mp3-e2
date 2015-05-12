@@ -26,6 +26,9 @@ secondsBlink = 30;
 // Tune the jog sensitivity when the scratch mode is disabled (default = 1, increase for increase the sensitivity
 jogSensitivity = 0.8;
 
+// Debug switch. set to true to print debug log messages in console.
+var debug=false;
+
 // Lower jog sensitivity when selecting playlists
 // Count each step until jogPlaylistSensitivityDivider is reached, then change Playlist
 //
@@ -88,6 +91,9 @@ pitchIncrementRelative = 0;
 
 HerculesMP3e2.init = function (id) 
 { 
+	if (debug)
+		print("*** Hercules MP3 e2 initialization begins");
+	
 	// Switch off all LEDs
 	for (i=1; i<95; i++) 
 	{
@@ -109,16 +115,25 @@ HerculesMP3e2.init = function (id)
 	engine.connectControl("[Channel2]", "loop_end_position", "HerculesMP3e2.loopEndSetLeds");
 	engine.connectControl("[Channel1]", "sync_mode", "HerculesMP3e2.syncmode");
 	engine.connectControl("[Channel2]", "sync_mode", "HerculesMP3e2.syncmode");
+	
+	if (debug)
+		print("*** Hercules MP3 e2 initialization complete");
 };
 
 
 HerculesMP3e2.shutdown = function (id) 
 {
+	if (debug)
+		print("*** Hercules MP3 e2 shutdown begins. Swhitching off all leds");
+
 	// Switch off all LEDs
 	for (i=1; i<95; i++)
 	{
 		midi.sendShortMsg(0x90, i, 0x00);
 	}
+
+	if (debug)
+		print("*** Hercules MP3 e2 shutdown complete. Bye");
 };
 
 HerculesMP3e2.automix = function (midino, control, value, status, group) 
