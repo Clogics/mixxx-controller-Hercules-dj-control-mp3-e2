@@ -124,10 +124,38 @@ HerculesMP3e2.init = function (id)
 	
 	engine.connectControl("[Channel1]", "playposition", "HerculesMP3e2.playPositionCue");
 	engine.connectControl("[Channel2]", "playposition", "HerculesMP3e2.playPositionCue");
+
 	engine.connectControl("[Channel1]", "loop_start_position", "HerculesMP3e2.loopStartSetLeds");
 	engine.connectControl("[Channel2]", "loop_start_position", "HerculesMP3e2.loopStartSetLeds");
+	engine.connectControl("[Channel3]", "loop_start_position", "HerculesMP3e2.loopStartSetLeds");
+	engine.connectControl("[Channel4]", "loop_start_position", "HerculesMP3e2.loopStartSetLeds");
+
 	engine.connectControl("[Channel1]", "loop_end_position", "HerculesMP3e2.loopEndSetLeds");
 	engine.connectControl("[Channel2]", "loop_end_position", "HerculesMP3e2.loopEndSetLeds");
+	engine.connectControl("[Channel3]", "loop_end_position", "HerculesMP3e2.loopEndSetLeds");
+	engine.connectControl("[Channel4]", "loop_end_position", "HerculesMP3e2.loopEndSetLeds");
+	
+	engine.connectControl("[Channel1]", "hotcue_1_enabled", "HerculesMP3e2.hotcueLeds");
+	engine.connectControl("[Channel1]", "hotcue_2_enabled", "HerculesMP3e2.hotcueLeds");
+	engine.connectControl("[Channel1]", "hotcue_3_enabled", "HerculesMP3e2.hotcueLeds");
+	engine.connectControl("[Channel1]", "hotcue_4_enabled", "HerculesMP3e2.hotcueLeds");
+	
+	engine.connectControl("[Channel2]", "hotcue_1_enabled", "HerculesMP3e2.hotcueLeds");
+	engine.connectControl("[Channel2]", "hotcue_2_enabled", "HerculesMP3e2.hotcueLeds");
+	engine.connectControl("[Channel2]", "hotcue_3_enabled", "HerculesMP3e2.hotcueLeds");
+	engine.connectControl("[Channel2]", "hotcue_4_enabled", "HerculesMP3e2.hotcueLeds");
+
+	engine.connectControl("[Channel3]", "hotcue_1_enabled", "HerculesMP3e2.hotcueLeds");
+	engine.connectControl("[Channel3]", "hotcue_2_enabled", "HerculesMP3e2.hotcueLeds");
+	engine.connectControl("[Channel3]", "hotcue_3_enabled", "HerculesMP3e2.hotcueLeds");
+	engine.connectControl("[Channel3]", "hotcue_4_enabled", "HerculesMP3e2.hotcueLeds");
+
+	engine.connectControl("[Channel4]", "hotcue_1_enabled", "HerculesMP3e2.hotcueLeds");
+	engine.connectControl("[Channel4]", "hotcue_2_enabled", "HerculesMP3e2.hotcueLeds");
+	engine.connectControl("[Channel4]", "hotcue_3_enabled", "HerculesMP3e2.hotcueLeds");
+	engine.connectControl("[Channel4]", "hotcue_4_enabled", "HerculesMP3e2.hotcueLeds");
+
+	
 	engine.connectControl("[Channel1]", "sync_mode", "HerculesMP3e2.syncmode");
 	engine.connectControl("[Channel2]", "sync_mode", "HerculesMP3e2.syncmode");
 	engine.connectControl("[Channel3]", "sync_mode", "HerculesMP3e2.syncmode");
@@ -274,6 +302,80 @@ HerculesMP3e2.updateLeds = function (deck)
 			break;
 	}
 	
+	// Update Loop leds
+	var loopStartPos = engine.getValue("[Channel"+deck+"]","loop_start_position");
+	if ((deck == 1) || (deck == 3))
+	{
+		if (loopStartPos != -1) midi.sendShortMsg(0x90,1,0x7F);
+		else midi.sendShortMsg(0x90,1,0x00);
+	}
+	else 
+	{
+		if (loopStartPos != -1) midi.sendShortMsg(0x90,21,0x7F);
+		else midi.sendShortMsg(0x90,21,0x00);
+	}
+	
+	var loopEndPos = engine.getValue("[Channel"+deck+"]","loop_end_position");
+	if ((deck == 1) || (deck == 3))
+	{
+		if (loopEndPos != -1) midi.sendShortMsg(0x90,2,0x7F);
+		else midi.sendShortMsg(0x90,2,0x00);
+	}
+	else
+	{
+		if (loopEndPos != -1) midi.sendShortMsg(0x90,22,0x7F);
+		else midi.sendShortMsg(0x90,22,0x00);
+	}
+	
+	// Update HotCue Leds
+	var hotCue1 = engine.getValue("[Channel"+deck+"]","hotcue_1_enabled");
+	if ((deck == 1) || (deck == 3))
+	{
+		if (hotCue1 == 1) midi.sendShortMsg(0x90,5,0x7F);
+		else midi.sendShortMsg(0x90,5,0x00);
+	}
+	else 
+	{
+		if (hotCue1 == 1) midi.sendShortMsg(0x90,25,0x7F);
+		else midi.sendShortMsg(0x90,25,0x00);
+	}
+
+	var hotCue1 = engine.getValue("[Channel"+deck+"]","hotcue_2_enabled");
+	if ((deck == 1) || (deck == 3))
+	{
+		if (hotCue1 == 1) midi.sendShortMsg(0x90,6,0x7F);
+		else midi.sendShortMsg(0x90,6,0x00);
+	}
+	else 
+	{
+		if (hotCue1 == 1) midi.sendShortMsg(0x90,26,0x7F);
+		else midi.sendShortMsg(0x90,26,0x00);
+	}
+
+	var hotCue1 = engine.getValue("[Channel"+deck+"]","hotcue_3_enabled");
+	if ((deck == 1) || (deck == 3))
+	{
+		if (hotCue1 == 1) midi.sendShortMsg(0x90,7,0x7F);
+		else midi.sendShortMsg(0x90,7,0x00);
+	}
+	else 
+	{
+		if (hotCue1 == 1) midi.sendShortMsg(0x90,27,0x7F);
+		else midi.sendShortMsg(0x90,27,0x00);
+	}
+
+	var hotCue1 = engine.getValue("[Channel"+deck+"]","hotcue_4_enabled");
+	if ((deck == 1) || (deck == 3))
+	{
+		if (hotCue1 == 1) midi.sendShortMsg(0x90,8,0x7F);
+		else midi.sendShortMsg(0x90,8,0x00);
+	}
+	else 
+	{
+		if (hotCue1 == 1) midi.sendShortMsg(0x90,28,0x7F);
+		else midi.sendShortMsg(0x90,28,0x00);
+	}
+
 	// TODO: more led sync to do
 	
 }
@@ -293,7 +395,7 @@ HerculesMP3e2.loadTrack = function (midino, control, value, status, group)
 				else
 					midi.sendShortMsg(0x90, 44, 0x00); // Folder Led Off if Deck A = [Channel1]
 				
-				HerculesMP3e2.updateLeds(deckA);
+				HerculesMP3e2.updateLeds(deckA); // TODO: In fact, it will be better to release controls of old deck and connect controls of new deck
 		
 				if (debug)
 					print("Switched Deck A to [Channel"+deckA+"]");
@@ -304,7 +406,7 @@ HerculesMP3e2.loadTrack = function (midino, control, value, status, group)
 				else
 					midi.sendShortMsg(0x90, 43, 0x00); // Folder Led Off if Deck B = [Channel2]
 
-				HerculesMP3e2.updateLeds(deckB);
+				HerculesMP3e2.updateLeds(deckB); // TODO: In fact, it will be better to release controls of old deck and connect controls of new deck
 				
 				if (debug)
 					print("Switched Deck B to [Channel"+deckB+"]");
@@ -416,6 +518,8 @@ HerculesMP3e2.holdButton = function (group, value, first, second) {
 HerculesMP3e2.keyButton = function (midino, control, value, status, group) 
 {
 	// Loop command for the first 4 Key, Hotcues command for the latest 4
+
+	var deck = HerculesMP3e2.switchDeck(group);
 	
 	switch (control) 
 	{
@@ -426,47 +530,47 @@ HerculesMP3e2.keyButton = function (midino, control, value, status, group)
 		case 0x01: case 0x15:  	// K1, Loop in
 			if (superButtonHold == 2 && value) 
 			{
-			        engine.setValue(group, "loop_start_position", -1);
-			        engine.setValue(group, "loop_end_position", -1);
+			        engine.setValue(deck, "loop_start_position", -1);
+			        engine.setValue(deck, "loop_end_position", -1);
 			}
                         else if (superButtonHold == 1 && value)
                         {
-                                engine.setValue(group, "beatloop_0.25_toggle", 1);
+                                engine.setValue(deck, "beatloop_0.25_toggle", 1);
                         }
-			else engine.setValue(group, "loop_in", value ? 1 : 0);
+			else engine.setValue(deck, "loop_in", value ? 1 : 0);
 			break;
 		case 0x02: case 0x16:	// K2, Loop out
 			if (superButtonHold == 2 && value) 
 			{
-			        engine.setValue(group, "beatloop_0.125_toggle", 1);
+			        engine.setValue(deck, "beatloop_0.125_toggle", 1);
 			}
                         else if (superButtonHold == 1 && value)
                         {
-                                engine.setValue(group, "beatloop_0.5_toggle", 1);
+                                engine.setValue(deck, "beatloop_0.5_toggle", 1);
                         }
-			else engine.setValue(group, "loop_out", value ? 1 : 0);
+			else engine.setValue(deck, "loop_out", value ? 1 : 0);
 			break;
 		case 0x03: case 0x17:	// K3, Reloop/Exit
 			if (superButtonHold == 2 && value) 
 			{
-			        engine.setValue(group, "beatloop_8_toggle", 1);
+			        engine.setValue(deck, "beatloop_8_toggle", 1);
 			}
                         else if (superButtonHold == 1 && value)
                         {
-                                engine.setValue(group, "beatloop_1_toggle", 1);
+                                engine.setValue(deck, "beatloop_1_toggle", 1);
                         }
-			else engine.setValue(group, "reloop_exit", value ? 1 : 0);
+			else engine.setValue(deck, "reloop_exit", value ? 1 : 0);
 			break;
 		case 0x04: case 0x18:	// K4, Reloop/Exit
 			if (superButtonHold == 2 && value) 
 			{
-			        engine.setValue(group, "beatloop_16_toggle", 1);
+			        engine.setValue(deck, "beatloop_16_toggle", 1);
 			}
                         else if (superButtonHold == 1 && value)
                         {
-                                engine.setValue(group, "beatloop_2_toggle", 1);
+                                engine.setValue(deck, "beatloop_2_toggle", 1);
                         }
-			else if (value) engine.setValue(group, "beatloop_4_toggle", 1);
+			else if (value) engine.setValue(deck, "beatloop_4_toggle", 1);
 			break;
 
 		// Hotcue buttons:
@@ -480,11 +584,11 @@ HerculesMP3e2.keyButton = function (midino, control, value, status, group)
                         else if (superButtonHold == 1) 
 			{
 				//HerculesMP3e2.holdButton(group, value, "hotcue_1_set", "hotcue_1_clear");
-				engine.setValue(group, "hotcue_1_clear", value ? 1 : 0);
+				engine.setValue(deck, "hotcue_1_clear", value ? 1 : 0);
 			}
 			else 
 			{
-				engine.setValue(group, "hotcue_1_activate", value ? 1 : 0);
+				engine.setValue(deck, "hotcue_1_activate", value ? 1 : 0);
 			}
 			break;
 
@@ -496,11 +600,11 @@ HerculesMP3e2.keyButton = function (midino, control, value, status, group)
                         else if (superButtonHold == 1) 
 			{
 				//HerculesMP3e2.holdButton(group, value, "hotcue_2_set", "hotcue_2_clear");
-				engine.setValue(group, "hotcue_2_clear", value ? 1 : 0);
+				engine.setValue(deck, "hotcue_2_clear", value ? 1 : 0);
 			}
 			else
 			{
-				engine.setValue(group, "hotcue_2_activate", value ? 1 : 0);
+				engine.setValue(deck, "hotcue_2_activate", value ? 1 : 0);
 			}
 			break;
 
@@ -512,11 +616,11 @@ HerculesMP3e2.keyButton = function (midino, control, value, status, group)
                         else if (superButtonHold == 1) 
 			{
 				//HerculesMP3e2.holdButton(group, value, "hotcue_3_set", "hotcue_3_clear");
-				engine.setValue(group, "hotcue_3_clear", value ? 1 : 0);
+				engine.setValue(deck, "hotcue_3_clear", value ? 1 : 0);
 			}
 			else
 			{
-				engine.setValue(group, "hotcue_3_activate", value ? 1 : 0);
+				engine.setValue(deck, "hotcue_3_activate", value ? 1 : 0);
 			}
 			break;
 
@@ -528,11 +632,11 @@ HerculesMP3e2.keyButton = function (midino, control, value, status, group)
                         else if (superButtonHold == 1) 
 			{
 				//HerculesMP3e2.holdButton(group, value, "hotcue_4_set", "hotcue_4_clear");
-				engine.setValue(group, "hotcue_4_clear", value ? 1 : 0);
+				engine.setValue(deck, "hotcue_4_clear", value ? 1 : 0);
 			}
 			else
 			{
-				engine.setValue(group, "hotcue_4_activate", value ? 1 : 0);
+				engine.setValue(deck, "hotcue_4_activate", value ? 1 : 0);
 			}
 			break;
 		}
@@ -957,16 +1061,65 @@ HerculesMP3e2.playPositionCue = function (playposition, group) {
 
 };
 
+// Switch on the hotcue leds
+HerculesMP3e2.hotcueLeds = function (value, group, control)
+{
+	var ledStatus = (value == 0) ? 0x00 : 0x7F;
+	
+	if (((group == "[Channel1]") && (deckA == 1)) || ((group == "[Channel3]") && (deckA == 3)))
+	{
+		var ledNo=0;
+		switch (control)
+		{
+			case "hotcue_1_enabled":
+				ledNo=5;
+				break;
+			case "hotcue_2_enabled":
+				ledNo=6;
+				break;
+			case "hotcue_3_enabled":
+				ledNo=7;
+				break;
+			case "hotcue_4_enabled":
+				ledNo=8;
+				break;
+		}
+		midi.sendShortMsg(0x90,ledNo,ledStatus);
+	}
+	else if (((group == "[Channel2]") && (deckB == 2)) || ((group == "[Channel4]") && (deckB == 4)))
+	{
+		var ledNo=0;
+		switch (control)
+		{
+			case "hotcue_1_enabled":
+				ledNo=25;
+				break;
+			case "hotcue_2_enabled":
+				ledNo=26;
+				break;
+			case "hotcue_3_enabled":
+				ledNo=27;
+				break;
+			case "hotcue_4_enabled":
+				ledNo=28;
+				break;
+		}
+		midi.sendShortMsg(0x90,ledNo,ledStatus);
+	}
+}
+
 // Switch-on the K1 Led if the loop start is set
 HerculesMP3e2.loopStartSetLeds = function (loopStartPos, group) 
 {
-	if (group == "[Channel1]") 
+	if (((group == "[Channel1]") && (deckA == 1)) || ((group == "[Channel3]") && (deckA == 3)))
 	{
+		print("*** IN A");
 		if (loopStartPos != -1) midi.sendShortMsg(0x90,1,0x7F);
 		else midi.sendShortMsg(0x90,1,0x00);
 	}
-	else	
+	else if (((group == "[Channel2]") && (deckB == 2)) || ((group == "[Channel4]") && (deckB == 4)))
 	{
+		print("*** IN B");
 		if (loopStartPos != -1) midi.sendShortMsg(0x90,21,0x7F);
 		else midi.sendShortMsg(0x90,21,0x00);
 	}
@@ -975,12 +1128,12 @@ HerculesMP3e2.loopStartSetLeds = function (loopStartPos, group)
 // Switch-on the K2 Led if the loop end is set
 HerculesMP3e2.loopEndSetLeds = function (loopEndPos, group) 
 {
-	if (group == "[Channel1]") 
+	if (((group == "[Channel1]") && (deckA == 1)) || ((group == "[Channel3]") && (deckA == 3)))
 	{
 		if (loopEndPos != -1) midi.sendShortMsg(0x90,2,0x7F);
 		else midi.sendShortMsg(0x90,2,0x00);
 	}
-	else	
+	else	if (((group == "[Channel2]") && (deckB == 2)) || ((group == "[Channel4]") && (deckB == 4)))
 	{
 		if (loopEndPos != -1) midi.sendShortMsg(0x90,22,0x7F);
 		else midi.sendShortMsg(0x90,22,0x00);

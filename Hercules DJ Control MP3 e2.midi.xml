@@ -572,14 +572,6 @@
         <minimum>0.5</minimum>
         <maximum>1</maximum>
       </output>
-		<output>
-        <group>[Channel2]</group>
-        <key>loop_start_position</key>
-        <status>0x90</status>
-        <midino>01</midino>
-        <minimum>0</minimum>
-        <maximum>10000000</maximum>
-      </output>
 <!--
        <output>
         <group>[Channel1]</group>
@@ -598,7 +590,7 @@
         <maximum>1</maximum>
       </output>
 -->
-      <output>
+ <!--     <output>
         <group>[Channel1]</group>
         <key>hotcue_1_enabled</key>
         <status>0x90</status>
@@ -661,7 +653,7 @@
         <midino>28</midino>
         <minimum>0.5</minimum>
         <maximum>1</maximum>
-      </output>
+      </output> -->
       <!--<output>
         <group>[Channel1]</group>
         <key>playposition</key>
