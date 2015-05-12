@@ -93,6 +93,15 @@ pitchIncrementRelative = 0;
     },
 }; */
 
+
+// This function return group with 1/3 and 2/4 modifier.
+HerculesMP3e2.switchDeck = function (group)
+{
+	var deck = group.replace('1', deckA);
+	deck = deck.replace('2', deckB);
+	return deck
+}
+
 HerculesMP3e2.init = function (id) 
 { 
 	if (debug)
@@ -969,21 +978,24 @@ HerculesMP3e2.wind = function (midino, control, value, status, group)
 
 HerculesMP3e2.play = function (midino, control, value, status, group) 
 {
-        //normal: play
-        //shift: backwards play
-        //supershift: replay button
-        if (superButtonHold == 2 && value)
-        {
-                engine.setValue(group, "repeat", !(engine.getValue(group, "repeat")));
-        }
-        else if (superButtonHold == 1)
-        {
-                engine.setValue(group, "reverse", value ? 1 : 0);
-        }
-        else if (value)
-        {
-                engine.setValue(group, "play", !(engine.getValue(group, "play")));
-        }
+	//normal: play
+	//shift: backwards play
+	//supershift: replay button
+
+	var deck = HerculesMP3e2.switchDeck(group);
+
+	if (superButtonHold == 2 && value)
+	{
+		engine.setValue(deck, "repeat", !(engine.getValue(deck, "repeat")));
+	}
+	else if (superButtonHold == 1)
+	{
+		engine.setValue(deck, "reverse", value ? 1 : 0);
+	}
+	else if (value)
+	{
+		engine.setValue(deck, "play", !(engine.getValue(deck, "play")));
+	}
 };
 
 HerculesMP3e2.selectTrack = function (midino, control, value, status, group) 
