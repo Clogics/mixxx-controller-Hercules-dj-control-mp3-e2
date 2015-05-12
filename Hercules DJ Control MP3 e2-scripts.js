@@ -128,7 +128,9 @@ HerculesMP3e2.init = function (id)
 	engine.connectControl("[Channel2]", "loop_end_position", "HerculesMP3e2.loopEndSetLeds");
 	engine.connectControl("[Channel1]", "sync_mode", "HerculesMP3e2.syncmode");
 	engine.connectControl("[Channel2]", "sync_mode", "HerculesMP3e2.syncmode");
-	
+	engine.connectControl("[Channel3]", "sync_mode", "HerculesMP3e2.syncmode");
+	engine.connectControl("[Channel4]", "sync_mode", "HerculesMP3e2.syncmode");
+
 	if (debug)
 		print("*** Hercules MP3 e2 initialization complete");
 };
@@ -190,6 +192,9 @@ HerculesMP3e2.automix = function (midino, control, value, status, group)
 // Enable/disable the magnet or enable/disable the keylock tempo if shifted or define a loop if supershifted
 HerculesMP3e2.masterTempo = function (midino, control, value, status, group) 
 {
+	
+	var deck = HerculesMP3e2.switchDeck(group);
+	
         if (superButtonHold == 2)
         {
 /*
@@ -207,18 +212,69 @@ HerculesMP3e2.masterTempo = function (midino, control, value, status, group)
 		}
 */
 		if (value)
-			engine.setValue(group, "quantize", !(engine.getValue(group, "quantize")));
+			engine.setValue(deck, "quantize", !(engine.getValue(deck, "quantize")));
 
         }
 	else if (superButtonHold == 1 && value && scratchMode == 0)
 	{
-        	engine.setValue(group, "keylock", (engine.getValue(group, "keylock") == 0) ? 1 : 0);
+        	engine.setValue(deck, "keylock", (engine.getValue(deck, "keylock") == 0) ? 1 : 0);
 	}
 	else if (value)
 	{
-		engine.setValue(group, "sync_mode", (engine.getValue(group, "sync_mode") != 0) ? 0 : 2);
+		engine.setValue(deck, "sync_mode", (engine.getValue(deck, "sync_mode") != 0) ? 0 : 2);
 	}
 };
+
+
+// This function updated Leds of DeckA or DeckB after a deck change (switch between 1/3 ou 2/4)
+HerculesMP3e2.updateLeds = function (deck)
+{
+	
+	// Update Master Tempo les for sync mode
+	var syncmode = engine.getValue("[Channel"+deck+"]","sync_mode"); 
+	switch (syncmode)
+	{
+		case 0:
+			if ((deck == 1) || (deck == 3))
+			{
+				midi.sendShortMsg(0x90,67,0x00); //blink off
+				midi.sendShortMsg(0x90,19,0x00); //fixed off
+			}
+			else
+			{
+				midi.sendShortMsg(0x90,87,0x00); //blink off
+				midi.sendShortMsg(0x90,39,0x00); //fixed off
+			}
+			break;
+		case 1:
+			if ((deck == 1) || (deck == 3))
+			{
+				midi.sendShortMsg(0x90,67,0x00); //blink off
+				midi.sendShortMsg(0x90,19,0x7F); //fixed on
+			}
+			else
+			{
+				midi.sendShortMsg(0x90,87,0x00); //blink off
+				midi.sendShortMsg(0x90,39,0x7F); //fixed on
+			}
+			break;
+		case 2:
+			if ((deck == 1) || (deck == 3))
+			{
+				midi.sendShortMsg(0x90,19,0x00); //fixed off
+				midi.sendShortMsg(0x90,67,0x7F); //blink on
+			}
+			else
+			{
+				midi.sendShortMsg(0x90,39,0x00); //fixed off
+				midi.sendShortMsg(0x90,87,0x7F); //blink on
+			}
+			break;
+	}
+	
+	// TODO: more led sync to do
+	
+}
 
 HerculesMP3e2.loadTrack = function (midino, control, value, status, group) 
 {
@@ -234,6 +290,8 @@ HerculesMP3e2.loadTrack = function (midino, control, value, status, group)
 					midi.sendShortMsg(0x90, 44, 0x7F); // Folder Led On if Deck A = [Channel3]
 				else
 					midi.sendShortMsg(0x90, 44, 0x00); // Folder Led Off if Deck A = [Channel1]
+				
+				HerculesMP3e2.updateLeds(deckA);
 		
 				if (debug)
 					print("Switched Deck A to [Channel"+deckA+"]");
@@ -244,6 +302,8 @@ HerculesMP3e2.loadTrack = function (midino, control, value, status, group)
 				else
 					midi.sendShortMsg(0x90, 43, 0x00); // Folder Led Off if Deck B = [Channel2]
 
+				HerculesMP3e2.updateLeds(deckB);
+				
 				if (debug)
 					print("Switched Deck B to [Channel"+deckB+"]");
 			}
@@ -847,41 +907,41 @@ HerculesMP3e2.syncmode = function (value, group, control) {
 	
 	if (value == 2) //Master => Blink
 	{
-		if (group == "[Channel1]") 
+		if (((group == "[Channel1]") && (deckA == 1)) || ((group == "[Channel3]") && (deckA == 3)))
 		{
-			midi.sendShortMsg(0x90,19,0x00) //fixed off
-			midi.sendShortMsg(0x90,67,0x7F) //blink on
+			midi.sendShortMsg(0x90,19,0x00); //fixed off
+			midi.sendShortMsg(0x90,67,0x7F); //blink on
 		}
-		else if (group == "[Channel2]")
+		else if (((group == "[Channel2]") && (deckB == 2)) || ((group == "[Channel4]") && (deckB == 4)))
 		{
-			midi.sendShortMsg(0x90,39,0x00) //fixed off
-			midi.sendShortMsg(0x90,87,0x7F) //blink on
+			midi.sendShortMsg(0x90,39,0x00); //fixed off
+			midi.sendShortMsg(0x90,87,0x7F); //blink on
 		}
 	}
 	else if (value == 1) //Follower => fixed
 	{
-		if (group == "[Channel1]") 
+		if (((group == "[Channel1]") && (deckA == 1)) || ((group == "[Channel3]") && (deckA == 3))) 
 		{
-			midi.sendShortMsg(0x90,67,0x00) //blink off
-			midi.sendShortMsg(0x90,19,0x7F) //fixed on
+			midi.sendShortMsg(0x90,67,0x00); //blink off
+			midi.sendShortMsg(0x90,19,0x7F); //fixed on
 		}
-		else if (group == "[Channel2]")
+		else if (((group == "[Channel2]") && (deckB == 2)) || ((group == "[Channel4]") && (deckB == 4)))
 		{
-			midi.sendShortMsg(0x90,87,0x00) //blink off
-			midi.sendShortMsg(0x90,39,0x7F) //fixed on
+			midi.sendShortMsg(0x90,87,0x00); //blink off
+			midi.sendShortMsg(0x90,39,0x7F); //fixed on
 		}
 	}
 	else if (value == 0) //None => led off
 	{
-		if (group == "[Channel1]") 
+		if (((group == "[Channel1]") && (deckA == 1)) || ((group == "[Channel3]") && (deckA == 3)))
 		{
-			midi.sendShortMsg(0x90,67,0x00) //blink off
-			midi.sendShortMsg(0x90,19,0x00) //fixed off
+			midi.sendShortMsg(0x90,67,0x00); //blink off
+			midi.sendShortMsg(0x90,19,0x00); //fixed off
 		}
-		else if (group == "[Channel2]")
+		else if (((group == "[Channel2]") && (deckB == 2)) || ((group == "[Channel4]") && (deckB == 4)))
 		{
-			midi.sendShortMsg(0x90,87,0x00) //blink off
-			midi.sendShortMsg(0x90,39,0x00) //fixed off
+			midi.sendShortMsg(0x90,87,0x00); //blink off
+			midi.sendShortMsg(0x90,39,0x00); //fixed off
 		}
 	}
 }
