@@ -27,7 +27,11 @@ secondsBlink = 30;
 jogSensitivity = 0.8;
 
 // Debug switch. set to true to print debug log messages in console.
-var debug=false;
+var debug=true;
+
+// 4-decks variables
+var deckA = 1;
+var deckB = 2;
 
 // Lower jog sensitivity when selecting playlists
 // Count each step until jogPlaylistSensitivityDivider is reached, then change Playlist
@@ -209,25 +213,51 @@ HerculesMP3e2.masterTempo = function (midino, control, value, status, group)
 
 HerculesMP3e2.loadTrack = function (midino, control, value, status, group) 
 {
-	// Load the selected track in the corresponding deck only if the track is 
-	// paused
-
-	var deck = group;
-	if (superButtonHold == 1)
+	if (superButtonHold == 2)
 	{
+		// Deck switch between 1/3 or 2/4
 		if (control == 0x11)
-		  { 
-			deck = "[Sampler1]";
-		  } else {
-			deck = "[Sampler2]";
-		  }
+		{ 
+			deckA = (deckA == 1) ? 3 : 1; //Switch Deck
+			if (deckA == 3)
+				midi.sendShortMsg(0x90, 44, 0x7F); // Folder Led On if Deck A = [Channel3]
+			else
+				midi.sendShortMsg(0x90, 44, 0x00); // Folder Led Off if Deck A = [Channel1]
+		
+			if (debug)
+				print("Switched Deck A to [Channel"+deckA+"]");
+		} else {
+			deckB = (deckB == 2) ? 4 : 2;
+			if (deckB == 4)
+				midi.sendShortMsg(0x90, 43, 0x7F); // Folder Led On if Deck B = [Channel4]
+			else
+				midi.sendShortMsg(0x90, 43, 0x00); // Folder Led Off if Deck B = [Channel2]
+
+			if (debug)
+				print("Switched Deck B to [Channel"+deckB+"]");
+		}
+
 	}
-	if(value && engine.getValue(deck, "play") != 1) 
+	else
 	{
-		engine.setValue(deck, "LoadSelectedTrack", 1);
-		engine.setValue(deck, "rate", 0);
+		var deck = group;
+		if (superButtonHold == 1)
+		{
+			if (control == 0x11)
+			{ 
+				deck = "[Sampler1]";
+			} else {
+				deck = "[Sampler2]";
+			}
+		}
+		
+		if(value && engine.getValue(deck, "play") != 1) // Load the selected track in the corresponding deck only if the track is paused
+		{
+			engine.setValue(deck, "LoadSelectedTrack", 1);
+			engine.setValue(deck, "rate", 0);
+		}
+		else engine.setValue(deck, "LoadSelectedTrack", 0);
 	}
-	else engine.setValue(deck, "LoadSelectedTrack", 0);
 };
 
 HerculesMP3e2.scroll = function (midino, control, value, status, group) 
