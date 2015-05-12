@@ -642,14 +642,17 @@ HerculesMP3e2.pitchbend = function (midino, control, value, status, group)
 		
 HerculesMP3e2.cue = function (channel, control, value, status, group) 
 {
+	
+	var deck = HerculesMP3e2.switchDeck(group);
+	
 	// Don't set Cue accidentaly at the end of the song
-	if(engine.getValue(group, "playposition") <= 0.97) 
+	if(engine.getValue(deck, "playposition") <= 0.97) 
 	{
-		engine.setValue(group, "cue_default", value ? 1 : 0);
+		engine.setValue(deck, "cue_default", value ? 1 : 0);
 	}
 	else
 	{
-		engine.setValue(group, "cue_preview", value ? 1 : 0);
+		engine.setValue(deck, "cue_preview", value ? 1 : 0);
 	}
 };
 
