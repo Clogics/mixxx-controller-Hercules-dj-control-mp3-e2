@@ -102,6 +102,37 @@ HerculesMP3e2.switchDeck = function (group)
 	return deck
 }
 
+
+// This function connect a control or remove the connection if the remove parameter is set to true.
+HercullesMP3e2.connectControl = function (deck, remove)
+{
+	remove = (typeof remove !== 'undefined') ? remove : false; // default value for remove is false
+	
+	// TODO: Move every connectControl to 4-deck
+
+	engine.connectControl("[Channel"+deck+"]", "playposition", "HerculesMP3e2.playPositionCue", remove);
+	engine.connectControl("[Channel"+deck+"]", "loop_start_position", "HerculesMP3e2.loopStartSetLeds", remove);
+	engine.connectControl("[Channel"+deck+"]", "loop_end_position", "HerculesMP3e2.loopEndSetLeds", remove);
+	engine.connectControl("[Channel"+deck+"]", "hotcue_1_enabled", "HerculesMP3e2.hotcueLeds", remove);
+	engine.connectControl("[Channel"+deck+"]", "hotcue_2_enabled", "HerculesMP3e2.hotcueLeds", remove);
+	engine.connectControl("[Channel"+deck+"]", "hotcue_3_enabled", "HerculesMP3e2.hotcueLeds", remove);
+	engine.connectControl("[Channel"+deck+"]", "hotcue_4_enabled", "HerculesMP3e2.hotcueLeds", remove);
+	engine.connectControl("[Channel"+deck+"]", "sync_mode", "HerculesMP3e2.syncmode", remove);
+}
+
+// This function calls engine.trigger to update Leds of DeckA or DeckB after a deck change (switch between 1/3 ou 2/4)
+HerculesMP3e2.updateLeds = function (deck)
+{
+	engine.trigger("[Channel"+deck+"]", "playposition");
+	engine.trigger("[Channel"+deck+"]", "loop_start_position");
+	engine.trigger("[Channel"+deck+"]", "loop_end_position");
+	engine.trigger("[Channel"+deck+"]", "hotcue_1_enabled");
+	engine.trigger("[Channel"+deck+"]", "hotcue_2_enabled");
+	engine.trigger("[Channel"+deck+"]", "hotcue_3_enabled");
+	engine.trigger("[Channel"+deck+"]", "hotcue_4_enabled");
+	engine.trigger("[Channel"+deck+"]", "sync_mode");		
+}
+
 HerculesMP3e2.init = function (id) 
 { 
 	if (debug)
@@ -120,47 +151,16 @@ HerculesMP3e2.init = function (id)
 	midi.sendShortMsg(0x90, 14, 0x7F);	// Cue deck A LED
 	midi.sendShortMsg(0x90, 34, 0x7F);	// Cue deck B LED
 	
-	// TODO: Move every connectControl to 4-deck
+	if (debug)
+		print("*** Connecting controls of deck A to [Channel"+deckA+"]");
+	HercullesMP3e2.connectControl(deckA);
+	HerculesMP3e2.updateLeds(deckA);
+
+	if (debug)
+		print("*** Connecting controls of deck B to [Channel"+deckB+"]");
+	HercullesMP3e2.connectControl(deckB);
+	HerculesMP3e2.updateLeds(deckB);
 	
-	engine.connectControl("[Channel1]", "playposition", "HerculesMP3e2.playPositionCue");
-	engine.connectControl("[Channel2]", "playposition", "HerculesMP3e2.playPositionCue");
-
-	engine.connectControl("[Channel1]", "loop_start_position", "HerculesMP3e2.loopStartSetLeds");
-	engine.connectControl("[Channel2]", "loop_start_position", "HerculesMP3e2.loopStartSetLeds");
-	engine.connectControl("[Channel3]", "loop_start_position", "HerculesMP3e2.loopStartSetLeds");
-	engine.connectControl("[Channel4]", "loop_start_position", "HerculesMP3e2.loopStartSetLeds");
-
-	engine.connectControl("[Channel1]", "loop_end_position", "HerculesMP3e2.loopEndSetLeds");
-	engine.connectControl("[Channel2]", "loop_end_position", "HerculesMP3e2.loopEndSetLeds");
-	engine.connectControl("[Channel3]", "loop_end_position", "HerculesMP3e2.loopEndSetLeds");
-	engine.connectControl("[Channel4]", "loop_end_position", "HerculesMP3e2.loopEndSetLeds");
-	
-	engine.connectControl("[Channel1]", "hotcue_1_enabled", "HerculesMP3e2.hotcueLeds");
-	engine.connectControl("[Channel1]", "hotcue_2_enabled", "HerculesMP3e2.hotcueLeds");
-	engine.connectControl("[Channel1]", "hotcue_3_enabled", "HerculesMP3e2.hotcueLeds");
-	engine.connectControl("[Channel1]", "hotcue_4_enabled", "HerculesMP3e2.hotcueLeds");
-	
-	engine.connectControl("[Channel2]", "hotcue_1_enabled", "HerculesMP3e2.hotcueLeds");
-	engine.connectControl("[Channel2]", "hotcue_2_enabled", "HerculesMP3e2.hotcueLeds");
-	engine.connectControl("[Channel2]", "hotcue_3_enabled", "HerculesMP3e2.hotcueLeds");
-	engine.connectControl("[Channel2]", "hotcue_4_enabled", "HerculesMP3e2.hotcueLeds");
-
-	engine.connectControl("[Channel3]", "hotcue_1_enabled", "HerculesMP3e2.hotcueLeds");
-	engine.connectControl("[Channel3]", "hotcue_2_enabled", "HerculesMP3e2.hotcueLeds");
-	engine.connectControl("[Channel3]", "hotcue_3_enabled", "HerculesMP3e2.hotcueLeds");
-	engine.connectControl("[Channel3]", "hotcue_4_enabled", "HerculesMP3e2.hotcueLeds");
-
-	engine.connectControl("[Channel4]", "hotcue_1_enabled", "HerculesMP3e2.hotcueLeds");
-	engine.connectControl("[Channel4]", "hotcue_2_enabled", "HerculesMP3e2.hotcueLeds");
-	engine.connectControl("[Channel4]", "hotcue_3_enabled", "HerculesMP3e2.hotcueLeds");
-	engine.connectControl("[Channel4]", "hotcue_4_enabled", "HerculesMP3e2.hotcueLeds");
-
-	
-	engine.connectControl("[Channel1]", "sync_mode", "HerculesMP3e2.syncmode");
-	engine.connectControl("[Channel2]", "sync_mode", "HerculesMP3e2.syncmode");
-	engine.connectControl("[Channel3]", "sync_mode", "HerculesMP3e2.syncmode");
-	engine.connectControl("[Channel4]", "sync_mode", "HerculesMP3e2.syncmode");
-
 	if (debug)
 		print("*** Hercules MP3 e2 initialization complete");
 };
@@ -178,7 +178,7 @@ HerculesMP3e2.shutdown = function (id)
 	}
 
 	if (debug)
-		print("*** Hercules MP3 e2 shutdown complete. Bye");
+		print("*** Hercules MP3 e2 shutdown complete, Bye...");
 };
 
 HerculesMP3e2.automix = function (midino, control, value, status, group) 
@@ -256,130 +256,6 @@ HerculesMP3e2.masterTempo = function (midino, control, value, status, group)
 };
 
 
-// This function updated Leds of DeckA or DeckB after a deck change (switch between 1/3 ou 2/4)
-HerculesMP3e2.updateLeds = function (deck)
-{
-	
-	// Update Master Tempo les for sync mode
-	var syncmode = engine.getValue("[Channel"+deck+"]","sync_mode"); 
-	switch (syncmode)
-	{
-		case 0:
-			if ((deck == 1) || (deck == 3))
-			{
-				midi.sendShortMsg(0x90,67,0x00); //blink off
-				midi.sendShortMsg(0x90,19,0x00); //fixed off
-			}
-			else
-			{
-				midi.sendShortMsg(0x90,87,0x00); //blink off
-				midi.sendShortMsg(0x90,39,0x00); //fixed off
-			}
-			break;
-		case 1:
-			if ((deck == 1) || (deck == 3))
-			{
-				midi.sendShortMsg(0x90,67,0x00); //blink off
-				midi.sendShortMsg(0x90,19,0x7F); //fixed on
-			}
-			else
-			{
-				midi.sendShortMsg(0x90,87,0x00); //blink off
-				midi.sendShortMsg(0x90,39,0x7F); //fixed on
-			}
-			break;
-		case 2:
-			if ((deck == 1) || (deck == 3))
-			{
-				midi.sendShortMsg(0x90,19,0x00); //fixed off
-				midi.sendShortMsg(0x90,67,0x7F); //blink on
-			}
-			else
-			{
-				midi.sendShortMsg(0x90,39,0x00); //fixed off
-				midi.sendShortMsg(0x90,87,0x7F); //blink on
-			}
-			break;
-	}
-	
-	// Update Loop leds
-	var loopStartPos = engine.getValue("[Channel"+deck+"]","loop_start_position");
-	if ((deck == 1) || (deck == 3))
-	{
-		if (loopStartPos != -1) midi.sendShortMsg(0x90,1,0x7F);
-		else midi.sendShortMsg(0x90,1,0x00);
-	}
-	else 
-	{
-		if (loopStartPos != -1) midi.sendShortMsg(0x90,21,0x7F);
-		else midi.sendShortMsg(0x90,21,0x00);
-	}
-	
-	var loopEndPos = engine.getValue("[Channel"+deck+"]","loop_end_position");
-	if ((deck == 1) || (deck == 3))
-	{
-		if (loopEndPos != -1) midi.sendShortMsg(0x90,2,0x7F);
-		else midi.sendShortMsg(0x90,2,0x00);
-	}
-	else
-	{
-		if (loopEndPos != -1) midi.sendShortMsg(0x90,22,0x7F);
-		else midi.sendShortMsg(0x90,22,0x00);
-	}
-	
-	// Update HotCue Leds
-	var hotCue1 = engine.getValue("[Channel"+deck+"]","hotcue_1_enabled");
-	if ((deck == 1) || (deck == 3))
-	{
-		if (hotCue1 == 1) midi.sendShortMsg(0x90,5,0x7F);
-		else midi.sendShortMsg(0x90,5,0x00);
-	}
-	else 
-	{
-		if (hotCue1 == 1) midi.sendShortMsg(0x90,25,0x7F);
-		else midi.sendShortMsg(0x90,25,0x00);
-	}
-
-	var hotCue1 = engine.getValue("[Channel"+deck+"]","hotcue_2_enabled");
-	if ((deck == 1) || (deck == 3))
-	{
-		if (hotCue1 == 1) midi.sendShortMsg(0x90,6,0x7F);
-		else midi.sendShortMsg(0x90,6,0x00);
-	}
-	else 
-	{
-		if (hotCue1 == 1) midi.sendShortMsg(0x90,26,0x7F);
-		else midi.sendShortMsg(0x90,26,0x00);
-	}
-
-	var hotCue1 = engine.getValue("[Channel"+deck+"]","hotcue_3_enabled");
-	if ((deck == 1) || (deck == 3))
-	{
-		if (hotCue1 == 1) midi.sendShortMsg(0x90,7,0x7F);
-		else midi.sendShortMsg(0x90,7,0x00);
-	}
-	else 
-	{
-		if (hotCue1 == 1) midi.sendShortMsg(0x90,27,0x7F);
-		else midi.sendShortMsg(0x90,27,0x00);
-	}
-
-	var hotCue1 = engine.getValue("[Channel"+deck+"]","hotcue_4_enabled");
-	if ((deck == 1) || (deck == 3))
-	{
-		if (hotCue1 == 1) midi.sendShortMsg(0x90,8,0x7F);
-		else midi.sendShortMsg(0x90,8,0x00);
-	}
-	else 
-	{
-		if (hotCue1 == 1) midi.sendShortMsg(0x90,28,0x7F);
-		else midi.sendShortMsg(0x90,28,0x00);
-	}
-
-	// TODO: more led sync to do
-	
-}
-
 HerculesMP3e2.loadTrack = function (midino, control, value, status, group) 
 {
 	if (superButtonHold == 2)
@@ -389,27 +265,31 @@ HerculesMP3e2.loadTrack = function (midino, control, value, status, group)
 			// Deck switch between 1/3 or 2/4
 			if (control == 0x11)
 			{ 
+				HercullesMP3e2.connectControl(deckA, true); // remove connected controls for deckA
 				deckA = (deckA == 1) ? 3 : 1; //Switch Deck
 				if (deckA == 3)
 					midi.sendShortMsg(0x90, 44, 0x7F); // Folder Led On if Deck A = [Channel3]
 				else
 					midi.sendShortMsg(0x90, 44, 0x00); // Folder Led Off if Deck A = [Channel1]
 				
-				HerculesMP3e2.updateLeds(deckA); // TODO: In fact, it will be better to release controls of old deck and connect controls of new deck
+				HercullesMP3e2.connectControl(deckA); // make new connected controls for deckA
+				HerculesMP3e2.updateLeds(deckA); 
 		
 				if (debug)
-					print("Switched Deck A to [Channel"+deckA+"]");
+					print("*** Switched Deck A to [Channel"+deckA+"]");
 			} else {
+				HercullesMP3e2.connectControl(deckB, true); // remove connected controls for deckB
 				deckB = (deckB == 2) ? 4 : 2;
 				if (deckB == 4)
 					midi.sendShortMsg(0x90, 43, 0x7F); // Folder Led On if Deck B = [Channel4]
 				else
 					midi.sendShortMsg(0x90, 43, 0x00); // Folder Led Off if Deck B = [Channel2]
-
-				HerculesMP3e2.updateLeds(deckB); // TODO: In fact, it will be better to release controls of old deck and connect controls of new deck
+				
+				HercullesMP3e2.connectControl(deckB); // make new connected controls for deckB
+				HerculesMP3e2.updateLeds(deckB); 
 				
 				if (debug)
-					print("Switched Deck B to [Channel"+deckB+"]");
+					print("*** Switched Deck B to [Channel"+deckB+"]");
 			}
 		}
 
