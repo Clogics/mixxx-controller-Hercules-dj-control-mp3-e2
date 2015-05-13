@@ -999,13 +999,11 @@ HerculesMP3e2.loopStartSetLeds = function (loopStartPos, group)
 {
 	if (((group == "[Channel1]") && (deckA == 1)) || ((group == "[Channel3]") && (deckA == 3)))
 	{
-		print("*** IN A");
 		if (loopStartPos != -1) midi.sendShortMsg(0x90,1,0x7F);
 		else midi.sendShortMsg(0x90,1,0x00);
 	}
 	else if (((group == "[Channel2]") && (deckB == 2)) || ((group == "[Channel4]") && (deckB == 4)))
 	{
-		print("*** IN B");
 		if (loopStartPos != -1) midi.sendShortMsg(0x90,21,0x7F);
 		else midi.sendShortMsg(0x90,21,0x00);
 	}
