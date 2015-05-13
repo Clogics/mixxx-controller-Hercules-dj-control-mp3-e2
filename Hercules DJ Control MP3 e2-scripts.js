@@ -1028,28 +1028,32 @@ HerculesMP3e2.wind = function (midino, control, value, status, group)
 {
         //normal: fwd and rwd
         //shift: adjust pregain
+	//supershift: same as shift
+	
+	var deck = HerculesMP3e2.switchDeck(group);
+	
         if (control == 0x21 || control == 0x0D)
         {
                 if (superButtonHold >= 1 && value)
                 {
-			newValue = HerculesMP3e2.knobIncrement(group, "pregain", 0, 4, 1, 20, 1);
-			engine.setValue(group, "pregain", newValue);
+			var newValue = HerculesMP3e2.knobIncrement(deck, "pregain", 0, 4, 1, 20, 1);
+			engine.setValue(deck, "pregain", newValue);
                 }
                 else
                 {
-                        engine.setValue(group, "fwd", value ? 1 : 0);
+                        engine.setValue(deck, "fwd", value ? 1 : 0);
                 }
         }
         else
         {
                 if (superButtonHold >= 1 && value)
                 {
-			newValue = HerculesMP3e2.knobIncrement(group, "pregain", 0, 4, 1, 20, -1);
-			engine.setValue(group, "pregain", newValue);
+			var newValue = HerculesMP3e2.knobIncrement(deck, "pregain", 0, 4, 1, 20, -1);
+			engine.setValue(deck, "pregain", newValue);
                 }
                 else
                 {
-                        engine.setValue(group, "back", value ? 1 : 0);
+                        engine.setValue(deck, "back", value ? 1 : 0);
                 }
         } 
 };
