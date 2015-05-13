@@ -733,17 +733,20 @@ HerculesMP3e2.sync = function (midino, control, value, status, group)
                 //Normal: Sync
                 //Shifted: Adjust Beatgrid
                 //Supershifted: Kill Mid
+	
+		var deck = HerculesMP3e2.switchDeck(group);
+	
                 if (superButtonHold == 2 && value)
                 {
-			engine.setValue(group, "filterMidKill", !(engine.getValue(group, "filterMidKill")));
+			engine.setValue(deck, "filterMidKill", !(engine.getValue(deck, "filterMidKill")));
                 }
                 else if (superButtonHold == 1)
                 {
-                        engine.setValue(group, "beats_translate_curpos", value ? 1 : 0);
+                        engine.setValue(deck, "beats_translate_curpos", value ? 1 : 0);
                 }
                 else
                 {
-                        engine.setValue(group, "beatsync", value ? 1 : 0);
+                        engine.setValue(deck, "beatsync", value ? 1 : 0);
                 }
 };
 
