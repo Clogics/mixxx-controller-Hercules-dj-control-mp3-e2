@@ -606,17 +606,20 @@ HerculesMP3e2.pitchbend = function (midino, control, value, status, group)
 	// Simple: temporary pitch adjust
 	// Shift:  old: pregain adjust, new: double/half loop
         // Supershift: disable low/high
+	
+	var deck = HerculesMP3e2.switchDeck(group);
+	
 	if (superButtonHold == 2 && value) 
 	{
 		// disable high
 		if (control == 0x0B || control == 0x1F) 
 		{
-			engine.setValue(group, "filterHighKill", !(engine.getValue(group, "filterHighKill")));
+			engine.setValue(deck, "filterHighKill", !(engine.getValue(deck, "filterHighKill")));
 		}
 		// disable low
 		else 
 		{
-			engine.setValue(group, "filterLowKill", !(engine.getValue(group, "filterLowKill")));
+			engine.setValue(deck, "filterLowKill", !(engine.getValue(deck, "filterLowKill")));
 		}
 	}
         else if (superButtonHold == 1) 
@@ -624,16 +627,12 @@ HerculesMP3e2.pitchbend = function (midino, control, value, status, group)
 		// double loop
 		if (control == 0x0B || control == 0x1F) 
 		{
-			//newValue = HerculesMP3e2.knobIncrement(group, "pregain", 0, 4, 1, 20, 1);
-			//engine.setValue(group, "pregain", newValue);
-			engine.setValue(group, "loop_double", value ? 1 : 0);
+			engine.setValue(deck, "loop_double", value ? 1 : 0);
 		}
 		// half loop
 		else 
 		{
-			//newValue = HerculesMP3e2.knobIncrement(group, "pregain", 0, 4, 1, 20, -1);
-			//engine.setValue(group, "pregain", newValue);
-			engine.setValue(group, "loop_halve", value ? 1 : 0);
+			engine.setValue(deck, "loop_halve", value ? 1 : 0);
 		}
 	}
 	else
@@ -641,12 +640,12 @@ HerculesMP3e2.pitchbend = function (midino, control, value, status, group)
 		// Pitchbend +
 		if (control == 0x0B || control == 0x1F) 
 		{
-			engine.setValue(group, "rate_temp_up", value ? 1 : 0);
+			engine.setValue(deck, "rate_temp_up", value ? 1 : 0);
 		}
 		// Pitchbend -
 		else 
 		{
-			engine.setValue(group, "rate_temp_down", value ? 1 : 0);
+			engine.setValue(deck, "rate_temp_down", value ? 1 : 0);
 		}
 	}
 };
