@@ -140,9 +140,9 @@
         <status>0x90</status>
         <midino>0x10</midino>
         <group>[Channel1]</group>
-        <key>pfl</key>
+        <key>HerculesMP3e2.pfl</key>
         <options>
-          <Button/>
+          <Script-Binding/>
         </options>
       </control>
       <control>
@@ -302,9 +302,9 @@
         <status>0x90</status>
         <midino>0x24</midino>
         <group>[Channel2]</group>
-        <key>pfl</key>
+        <key>HerculesMP3e2.pfl</key>
         <options>
-          <Button/>
+          <Script-Binding/>
         </options>
       </control>
       <control>
@@ -508,6 +508,7 @@
     </controls>
     <!-- LEDs CONFIGURATION -->
     <outputs>
+<!--
       <output>
         <group>[Channel1]</group>
         <key>pfl</key>
@@ -524,6 +525,7 @@
         <minimum>0.5</minimum>
         <maximum>1</maximum>
       </output>
+-->
       <output>
         <group>[Channel1]</group>
         <key>play</key>

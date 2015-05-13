@@ -118,6 +118,7 @@ HercullesMP3e2.connectControl = function (deck, remove)
 	engine.connectControl("[Channel"+deck+"]", "hotcue_3_enabled", "HerculesMP3e2.hotcueLeds", remove);
 	engine.connectControl("[Channel"+deck+"]", "hotcue_4_enabled", "HerculesMP3e2.hotcueLeds", remove);
 	engine.connectControl("[Channel"+deck+"]", "sync_mode", "HerculesMP3e2.syncmode", remove);
+	engine.connectControl("[Channel"+deck+"]", "pfl", "HerculesMP3e2.pflLeds", remove);
 }
 
 // This function calls engine.trigger to update Leds of DeckA or DeckB after a deck change (switch between 1/3 ou 2/4)
@@ -130,7 +131,8 @@ HerculesMP3e2.updateLeds = function (deck)
 	engine.trigger("[Channel"+deck+"]", "hotcue_2_enabled");
 	engine.trigger("[Channel"+deck+"]", "hotcue_3_enabled");
 	engine.trigger("[Channel"+deck+"]", "hotcue_4_enabled");
-	engine.trigger("[Channel"+deck+"]", "sync_mode");		
+	engine.trigger("[Channel"+deck+"]", "sync_mode");
+	engine.trigger("[Channel"+deck+"]", "pfl");
 }
 
 HerculesMP3e2.init = function (id) 
@@ -1058,6 +1060,20 @@ HerculesMP3e2.wind = function (midino, control, value, status, group)
         } 
 };
 
+HerculesMP3e2.pfl = function (midino, control, value, status, group) 
+{
+	//normal: pfl / Headphones
+	//shift: pfl / Headphones
+	//supershift: pfl / Headphones
+
+	var deck = HerculesMP3e2.switchDeck(group);
+
+	if (value)
+	{
+		engine.setValue(deck, "pfl", !(engine.getValue(deck, "pfl")));
+	}
+};
+
 HerculesMP3e2.play = function (midino, control, value, status, group) 
 {
 	//normal: play
@@ -1077,6 +1093,21 @@ HerculesMP3e2.play = function (midino, control, value, status, group)
 	else if (value)
 	{
 		engine.setValue(deck, "play", !(engine.getValue(deck, "play")));
+	}
+};
+
+// Switch-on the pfl / headphone Led if pfl is set
+HerculesMP3e2.pflLeds = function (value, group, control) 
+{
+	if (((group == "[Channel1]") && (deckA == 1)) || ((group == "[Channel3]") && (deckA == 3)))
+	{
+		if (value) midi.sendShortMsg(0x90,16,0x7F);
+		else midi.sendShortMsg(0x90,16,0x00);
+	}
+	else if (((group == "[Channel2]") && (deckB == 2)) || ((group == "[Channel4]") && (deckB == 4)))
+	{
+		if (value) midi.sendShortMsg(0x90,36,0x7F);
+		else midi.sendShortMsg(0x90,36,0x00);
 	}
 };
 
