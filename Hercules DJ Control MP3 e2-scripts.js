@@ -525,7 +525,8 @@ HerculesMP3e2.keyButton = function (midino, control, value, status, group)
 HerculesMP3e2.pitch = function (midino, control, value, status, group) 
 {
 	// Simple: pitch slider
-	// Shifted: Headphone volume and pre/main
+	// Shifted: Headphone volume and pre/main (this are 4-deck independant)
+	// Supershifted: QuickEffect Filter knob
 	
 	if (superButtonHold == 2) 
 	{
@@ -533,15 +534,13 @@ HerculesMP3e2.pitch = function (midino, control, value, status, group)
 		
 		if (group == "[Channel1]") 
 		{
-			newValue = HerculesMP3e2.knobIncrement("[QuickEffectRack1_[Channel1]]", "super1", 0, 1, 0.5, 20, sign);
-			engine.setValue("[QuickEffectRack1_[Channel1]]", "super1", newValue);
+			newValue = HerculesMP3e2.knobIncrement("[QuickEffectRack1_[Channel"+deckA+"]]", "super1", 0, 1, 0.5, 20, sign);
+			engine.setValue("[QuickEffectRack1_[Channel"+deckA+"]]", "super1", newValue);
 		}
 		if (group == "[Channel2]") 
 		{
-//			newValue = HerculesMP3e2.knobIncrement("[Master]", "headMix", -1, 1, 0, 20, sign);
-//			engine.setValue("[Master]", "headMix", newValue);
-			newValue = HerculesMP3e2.knobIncrement("[QuickEffectRack1_[Channel2]]", "super1", 0, 1, 0.5, 20, sign);
-			engine.setValue("[QuickEffectRack1_[Channel2]]", "super1", newValue);
+			newValue = HerculesMP3e2.knobIncrement("[QuickEffectRack1_[Channel"+deckB+"]]", "super1", 0, 1, 0.5, 20, sign);
+			engine.setValue("[QuickEffectRack1_[Channel"+deckB+"]]", "super1", newValue);
 		}
 	}
 	else if (superButtonHold == 1) 
@@ -561,8 +560,9 @@ HerculesMP3e2.pitch = function (midino, control, value, status, group)
 	}
 	else
 	{
-		engine.setValue(group, (value==1) ? "rate_perm_up" : "rate_perm_down", 1);
-		engine.setValue(group, (value==1) ? "rate_perm_up" : "rate_perm_down", 0);
+		var deck = HerculesMP3e2.switchDeck(group);
+		engine.setValue(deck, (value==1) ? "rate_perm_up" : "rate_perm_down", 1);
+		engine.setValue(deck, (value==1) ? "rate_perm_up" : "rate_perm_down", 0);
 	}
 	
 };
