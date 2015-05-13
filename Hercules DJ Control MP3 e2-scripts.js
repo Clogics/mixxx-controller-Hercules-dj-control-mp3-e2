@@ -104,7 +104,7 @@ HerculesMP3e2.switchDeck = function (group)
 
 
 // This function connect a control or remove the connection if the remove parameter is set to true.
-HercullesMP3e2.connectControl = function (deck, remove)
+HerculesMP3e2.connectControl = function (deck, remove)
 {
 	remove = (typeof remove !== 'undefined') ? remove : false; // default value for remove is false
 	
@@ -157,12 +157,12 @@ HerculesMP3e2.init = function (id)
 	
 	if (debug)
 		print("*** Connecting controls of deck A to [Channel"+deckA+"]");
-	HercullesMP3e2.connectControl(deckA);
+	HerculesMP3e2.connectControl(deckA);
 	HerculesMP3e2.updateLeds(deckA);
 
 	if (debug)
 		print("*** Connecting controls of deck B to [Channel"+deckB+"]");
-	HercullesMP3e2.connectControl(deckB);
+	HerculesMP3e2.connectControl(deckB);
 	HerculesMP3e2.updateLeds(deckB);
 	
 	if (debug)
@@ -269,27 +269,27 @@ HerculesMP3e2.loadTrack = function (midino, control, value, status, group)
 			// Deck switch between 1/3 or 2/4
 			if (control == 0x11)
 			{ 
-				HercullesMP3e2.connectControl(deckA, true); // remove connected controls for deckA
+				HerculesMP3e2.connectControl(deckA, true); // remove connected controls for deckA
 				deckA = (deckA == 1) ? 3 : 1; //Switch Deck
 				if (deckA == 3)
 					midi.sendShortMsg(0x90, 44, 0x7F); // Folder Led On if Deck A = [Channel3]
 				else
 					midi.sendShortMsg(0x90, 44, 0x00); // Folder Led Off if Deck A = [Channel1]
 				
-				HercullesMP3e2.connectControl(deckA); // make new connected controls for deckA
+				HerculesMP3e2.connectControl(deckA); // make new connected controls for deckA
 				HerculesMP3e2.updateLeds(deckA); 
 		
 				if (debug)
 					print("*** Switched Deck A to [Channel"+deckA+"]");
 			} else {
-				HercullesMP3e2.connectControl(deckB, true); // remove connected controls for deckB
+				HerculesMP3e2.connectControl(deckB, true); // remove connected controls for deckB
 				deckB = (deckB == 2) ? 4 : 2;
 				if (deckB == 4)
 					midi.sendShortMsg(0x90, 43, 0x7F); // Folder Led On if Deck B = [Channel4]
 				else
 					midi.sendShortMsg(0x90, 43, 0x00); // Folder Led Off if Deck B = [Channel2]
 				
-				HercullesMP3e2.connectControl(deckB); // make new connected controls for deckB
+				HerculesMP3e2.connectControl(deckB); // make new connected controls for deckB
 				HerculesMP3e2.updateLeds(deckB); 
 				
 				if (debug)
