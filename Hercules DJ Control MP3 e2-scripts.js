@@ -29,6 +29,11 @@ jogSensitivity = 0.8;
 // Debug switch. set to true to print debug log messages in console.
 var debug=true;
 
+// When switching from channel1/2 to channel3/4, volume slider and eq knobs can be unaligned. This is the difference in value at which moving will have no effect.
+var softTakeOver = 0.05;
+var deckANeedVolSoftTakeOver=false;
+var deckBNeedVolSoftTakeOver=false;
+
 // 4-decks variables
 var deckA = 1;
 var deckB = 2;
@@ -278,7 +283,8 @@ HerculesMP3e2.loadTrack = function (midino, control, value, status, group)
 				
 				HerculesMP3e2.connectControl(deckA); // make new connected controls for deckA
 				HerculesMP3e2.updateLeds(deckA); 
-		
+				deckANeedSoftVolTakeOver=true;
+
 				if (debug)
 					print("*** Switched Deck A to [Channel"+deckA+"]");
 			} else {
@@ -291,6 +297,7 @@ HerculesMP3e2.loadTrack = function (midino, control, value, status, group)
 				
 				HerculesMP3e2.connectControl(deckB); // make new connected controls for deckB
 				HerculesMP3e2.updateLeds(deckB); 
+				deckBNeedSoftVolTakeOver=true;
 				
 				if (debug)
 					print("*** Switched Deck B to [Channel"+deckB+"]");
@@ -1162,3 +1169,23 @@ HerculesMP3e2.mic = function (midino, control, value, status, group)
         engine.setValue("[Microphone]", "talkover", value? 1 : 0);
 };
 
+HerculesMP3e2.volume = function (midino, control, value, status, group) 
+{
+	var deck = HerculesMP3e2.switchDeck(group);
+	var newValue = script.absoluteLin(value, 0, 1);
+		
+	if (((group == "[Channel1]") && deckANeedVolSoftTakeOver) || ((group == "[Channel2]") && deckBNeedVolSoftTakeOver))
+	{
+		//We need to have some softTakeOver
+		var oldValue = engine.getValue(deck, "volume");
+		if (Math.abs(newValue - oldValue) < softTakeOver)
+		{
+			engine.setValue(deck, "volume", newValue);
+			if (group == "[Channel1]")
+				deckANeedVolSoftTakeOver = false;
+			else
+				deckBNeedVolSoftTakeOver = false;
+		}
+	}
+	else engine.setValue(deck, "volume", newValue);
+};

@@ -428,9 +428,9 @@
         <status>0xB0</status>
         <midino>0x34</midino>
         <group>[Channel1]</group>
-        <key>volume</key>
+        <key>HerculesMP3e2.volume</key>
         <options>
-          <normal/>
+          <Script-Binding/>
         </options>
       </control>
       <control>
@@ -473,9 +473,9 @@
         <status>0xB0</status>
         <midino>0x39</midino>
         <group>[Channel2]</group>
-        <key>volume</key>
+        <key>HerculesMP3e2.volume</key>
         <options>
-          <normal/>
+          <Script-Binding/>
         </options>
       </control>
       <control>
