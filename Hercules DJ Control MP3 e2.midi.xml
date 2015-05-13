@@ -525,7 +525,6 @@
         <minimum>0.5</minimum>
         <maximum>1</maximum>
       </output>
--->
       <output>
         <group>[Channel1]</group>
         <key>play</key>
@@ -542,7 +541,8 @@
         <minimum>0.5</minimum>
         <maximum>1</maximum>
       </output>
-		<output>
+-->
+      <output>
         <group>[Channel1]</group>
         <key>loop_enabled</key>
         <status>0x90</status>

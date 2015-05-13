@@ -111,6 +111,7 @@ HercullesMP3e2.connectControl = function (deck, remove)
 	// TODO: Move every connectControl to 4-deck
 
 	engine.connectControl("[Channel"+deck+"]", "cue_indicator", "HerculesMP3e2.cueLed", remove);
+	engine.connectControl("[Channel"+deck+"]", "play_indicator", "HerculesMP3e2.playLed", remove);
 	engine.connectControl("[Channel"+deck+"]", "loop_start_position", "HerculesMP3e2.loopStartSetLeds", remove);
 	engine.connectControl("[Channel"+deck+"]", "loop_end_position", "HerculesMP3e2.loopEndSetLeds", remove);
 	engine.connectControl("[Channel"+deck+"]", "hotcue_1_enabled", "HerculesMP3e2.hotcueLeds", remove);
@@ -125,6 +126,7 @@ HercullesMP3e2.connectControl = function (deck, remove)
 HerculesMP3e2.updateLeds = function (deck)
 {
 	engine.trigger("[Channel"+deck+"]", "cue_indicator");
+	engine.trigger("[Channel"+deck+"]", "play_indicator");
 	engine.trigger("[Channel"+deck+"]", "loop_start_position");
 	engine.trigger("[Channel"+deck+"]", "loop_end_position");
 	engine.trigger("[Channel"+deck+"]", "hotcue_1_enabled");
@@ -964,6 +966,18 @@ HerculesMP3e2.playPositionCue = function (playposition, group) {
 }
 
 */
+
+HerculesMP3e2.playLed = function (value, group, control)
+{
+	if (((group == "[Channel1]") && (deckA == 1)) || ((group == "[Channel3]") && (deckA == 3))) 
+	{
+		midi.sendShortMsg(0x90,15, (value) ? 0x7F : 0x00); // Switch-on Play Led
+	}
+	else if (((group == "[Channel2]") && (deckB == 2)) || ((group == "[Channel4]") && (deckB == 4)))
+	{
+		midi.sendShortMsg(0x90,35, (value) ? 0x7F : 0x00); // Switch-on Play Led
+	}
+}
 
 // Switch on the hotcue leds
 HerculesMP3e2.hotcueLeds = function (value, group, control)
