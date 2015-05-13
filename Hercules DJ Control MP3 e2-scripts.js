@@ -110,7 +110,7 @@ HercullesMP3e2.connectControl = function (deck, remove)
 	
 	// TODO: Move every connectControl to 4-deck
 
-	engine.connectControl("[Channel"+deck+"]", "playposition", "HerculesMP3e2.playPositionCue", remove);
+	engine.connectControl("[Channel"+deck+"]", "cue_indicator", "HerculesMP3e2.cueLed", remove);
 	engine.connectControl("[Channel"+deck+"]", "loop_start_position", "HerculesMP3e2.loopStartSetLeds", remove);
 	engine.connectControl("[Channel"+deck+"]", "loop_end_position", "HerculesMP3e2.loopEndSetLeds", remove);
 	engine.connectControl("[Channel"+deck+"]", "hotcue_1_enabled", "HerculesMP3e2.hotcueLeds", remove);
@@ -124,7 +124,7 @@ HercullesMP3e2.connectControl = function (deck, remove)
 // This function calls engine.trigger to update Leds of DeckA or DeckB after a deck change (switch between 1/3 ou 2/4)
 HerculesMP3e2.updateLeds = function (deck)
 {
-	engine.trigger("[Channel"+deck+"]", "playposition");
+	engine.trigger("[Channel"+deck+"]", "cue_indicator");
 	engine.trigger("[Channel"+deck+"]", "loop_start_position");
 	engine.trigger("[Channel"+deck+"]", "loop_end_position");
 	engine.trigger("[Channel"+deck+"]", "hotcue_1_enabled");
@@ -902,6 +902,20 @@ HerculesMP3e2.syncmode = function (value, group, control) {
 	}
 }
 
+HerculesMP3e2.cueLed = function (value, group, control)
+{
+	if (((group == "[Channel1]") && (deckA == 1)) || ((group == "[Channel3]") && (deckA == 3))) 
+	{
+		midi.sendShortMsg(0x90,14, (value) ? 0x7F : 0x00); // Switch-on Cue Led
+	}
+	else if (((group == "[Channel2]") && (deckB == 2)) || ((group == "[Channel4]") && (deckB == 4)))
+	{
+		midi.sendShortMsg(0x90,34, (value) ? 0x7F : 0x00); // Switch-on Cue Led
+	}
+}
+
+/* // Not used anymore in 1.12 since cue_indicator exist to do that.
+
 // This function switch-on the blinking of the cue led when the track is going to end and switch off the led 
 // when the track is ended
 HerculesMP3e2.playPositionCue = function (playposition, group) {
@@ -948,6 +962,8 @@ HerculesMP3e2.playPositionCue = function (playposition, group) {
 		}
 	}
 }
+
+*/
 
 // Switch on the hotcue leds
 HerculesMP3e2.hotcueLeds = function (value, group, control)
