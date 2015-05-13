@@ -907,11 +907,13 @@ HerculesMP3e2.playPositionCue = function (playposition, group) {
     var secondsToEnd = engine.getValue(group, "duration") * (1-playposition);
 	
 	if (secondsToEnd > secondsBlink) { 
-		if (group == "[Channel1]") {
+		if (((group == "[Channel1]") && (deckA == 1)) || ((group == "[Channel3]") && (deckA == 3))) 
+		{
 			midi.sendShortMsg(0x90,14,0x7F); // Switch-on Cue Led
 			midi.sendShortMsg(0x90,62,0x00); // Switch-off  Cue Blink
 		}
-		else {
+		else if (((group == "[Channel2]") && (deckB == 2)) || ((group == "[Channel4]") && (deckB == 4)))
+		{
 			midi.sendShortMsg(0x90,34,0x7F);
 			midi.sendShortMsg(0x90,82,0x00);
 		}
@@ -919,29 +921,31 @@ HerculesMP3e2.playPositionCue = function (playposition, group) {
 	}
 
 	if (secondsToEnd < secondsBlink && secondsToEnd > 1) { // The song is going to end
-		if (group == "[Channel1]") {
+		if (((group == "[Channel1]") && (deckA == 1)) || ((group == "[Channel3]") && (deckA == 3))) 
+		{
 			midi.sendShortMsg(0x90,14,0x00);  // Switch-off Cue Led
 			midi.sendShortMsg(0x90,62,0x7F);  // Switch-on  Cue Blink
 		}
-		else {
+		else  if (((group == "[Channel2]") && (deckB == 2)) || ((group == "[Channel4]") && (deckB == 4)))
+		{
 			midi.sendShortMsg(0x90,34,0x00);
 			midi.sendShortMsg(0x90,82,0x7F);
 		}
 	}
 	
 	if (secondsToEnd < 1) { // The song is finished
-		if (group == "[Channel1]") {
+		if (((group == "[Channel1]") && (deckA == 1)) || ((group == "[Channel3]") && (deckA == 3))) 
+		{
 			midi.sendShortMsg(0x90,14,0x00); // Switch-off Cue Led and blink
 			midi.sendShortMsg(0x90,62,0x00);
 		}
-		else {
+		else if (((group == "[Channel2]") && (deckB == 2)) || ((group == "[Channel4]") && (deckB == 4)))
+		{
 			midi.sendShortMsg(0x90,34,0x00);
 			midi.sendShortMsg(0x90,82,0x00);
 		}
 	}
-		
-
-};
+}
 
 // Switch on the hotcue leds
 HerculesMP3e2.hotcueLeds = function (value, group, control)
