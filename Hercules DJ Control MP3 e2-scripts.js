@@ -29,8 +29,10 @@ jogSensitivity = 0.8;
 // Debug switch. set to true to print debug log messages in console.
 var debug=true;
 
-// When switching from channel1/2 to channel3/4, volume slider and eq knobs can be unaligned. This is the difference in value at which moving will have no effect.
+// When switching from channel1/2 to channel3/4, volume slider can be unaligned. This is the difference in value at which moving will have no effect.
 var softTakeOver = 0.05;
+
+// do we need soft takeOver ? == 1 after deck change, return to zero if slider moved near control value.
 var deckANeedVolSoftTakeOver=false;
 var deckBNeedVolSoftTakeOver=false;
 
@@ -102,8 +104,8 @@ pitchIncrementRelative = 0;
 // This function return group with 1/3 and 2/4 modifier.
 HerculesMP3e2.switchDeck = function (group)
 {
-	var deck = group.replace('1', deckA);
-	deck = deck.replace('2', deckB);
+	var deck = group.replace("Channel1", "Channel"+deckA);
+	deck = deck.replace("Channel2", "Channel"+deckB);
 	return deck
 }
 
@@ -1189,3 +1191,24 @@ HerculesMP3e2.volume = function (midino, control, value, status, group)
 	}
 	else engine.setValue(deck, "volume", newValue);
 };
+
+HerculesMP3e2.filterKnob = function (group, control, value)
+{
+	var deck = HerculesMP3e2.switchDeck(group);
+	engine.setValue("[EqualizerRack1_"+deck+"_Effect1]", control, script.absoluteNonLin(value, 0, 1, 4));
+}
+
+HerculesMP3e2.filterHigh = function (midino, control, value, status, group)
+{
+	HerculesMP3e2.filterKnob(group, "parameter3", value);
+}
+
+HerculesMP3e2.filterMid = function (midino, control, value, status, group)
+{
+	HerculesMP3e2.filterKnob(group, "parameter2", value);
+}
+
+HerculesMP3e2.filterLow = function (midino, control, value, status, group)
+{
+	HerculesMP3e2.filterKnob(group, "parameter1", value);
+}

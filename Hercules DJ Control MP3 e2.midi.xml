@@ -437,27 +437,27 @@
         <status>0xB0</status>
         <midino>0x35</midino>
         <group>[Channel1]</group>
-        <key>filterHigh</key>
+        <key>HerculesMP3e2.filterHigh</key>
         <options>
-          <normal/>
+          <Script-Binding/>
         </options>
       </control>
       <control>
         <status>0xB0</status>
         <midino>0x36</midino>
         <group>[Channel1]</group>
-        <key>filterMid</key>
+        <key>HerculesMP3e2.filterMid</key>
         <options>
-          <normal/>
+          <Script-Binding/>
         </options>
       </control>
       <control>
         <status>0xB0</status>
         <midino>0x37</midino>
         <group>[Channel1]</group>
-        <key>filterLow</key>
+        <key>HerculesMP3e2.filterLow</key>
         <options>
-          <normal/>
+          <Script-Binding/>
         </options>
       </control>
       <control>
@@ -482,27 +482,27 @@
         <status>0xB0</status>
         <midino>0x3A</midino>
         <group>[Channel2]</group>
-        <key>filterHigh</key>
+        <key>HerculesMP3e2.filterHigh</key>
         <options>
-          <normal/>
+          <Script-Binding/>
         </options>
       </control>
       <control>
         <status>0xB0</status>
         <midino>0x3B</midino>
         <group>[Channel2]</group>
-        <key>filterMid</key>
+        <key>HerculesMP3e2.filterMid</key>
         <options>
-          <normal/>
+          <Script-Binding/>
         </options>
       </control>
       <control>
         <status>0xB0</status>
         <midino>0x3C</midino>
         <group>[Channel2]</group>
-        <key>filterLow</key>
+        <key>HerculesMP3e2.filterLow</key>
         <options>
-          <normal/>
+          <Script-Binding/>
         </options>
       </control>
     </controls>
