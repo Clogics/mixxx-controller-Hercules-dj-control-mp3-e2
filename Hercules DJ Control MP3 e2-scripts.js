@@ -121,6 +121,7 @@ HerculesMP3e2.connectControl = function (deck, remove)
 	engine.connectControl("[Channel"+deck+"]", "play_indicator", "HerculesMP3e2.playLed", remove);
 	engine.connectControl("[Channel"+deck+"]", "loop_start_position", "HerculesMP3e2.loopStartSetLeds", remove);
 	engine.connectControl("[Channel"+deck+"]", "loop_end_position", "HerculesMP3e2.loopEndSetLeds", remove);
+	engine.connectControl("[Channel"+deck+"]", "loop_enabled", "HerculesMP3e2.loopEnabledLeds", remove);
 	engine.connectControl("[Channel"+deck+"]", "hotcue_1_enabled", "HerculesMP3e2.hotcueLeds", remove);
 	engine.connectControl("[Channel"+deck+"]", "hotcue_2_enabled", "HerculesMP3e2.hotcueLeds", remove);
 	engine.connectControl("[Channel"+deck+"]", "hotcue_3_enabled", "HerculesMP3e2.hotcueLeds", remove);
@@ -136,6 +137,7 @@ HerculesMP3e2.updateLeds = function (deck)
 	engine.trigger("[Channel"+deck+"]", "play_indicator");
 	engine.trigger("[Channel"+deck+"]", "loop_start_position");
 	engine.trigger("[Channel"+deck+"]", "loop_end_position");
+	engine.trigger("[Channel"+deck+"]", "loop_enabled");
 	engine.trigger("[Channel"+deck+"]", "hotcue_1_enabled");
 	engine.trigger("[Channel"+deck+"]", "hotcue_2_enabled");
 	engine.trigger("[Channel"+deck+"]", "hotcue_3_enabled");
@@ -1147,6 +1149,37 @@ HerculesMP3e2.pflLeds = function (value, group, control)
 	{
 		if (value) midi.sendShortMsg(0x90,36,0x7F);
 		else midi.sendShortMsg(0x90,36,0x00);
+	}
+};
+
+// Blink loop mod 3/4 leds when loop enabled
+HerculesMP3e2.loopEnabledLeds= function (value, group, control) 
+{
+	if (((group == "[Channel1]") && (deckA == 1)) || ((group == "[Channel3]") && (deckA == 3)))
+	{
+		if (value) 
+		{
+			midi.sendShortMsg(0x90,51,0x7F);
+			midi.sendShortMsg(0x90,52,0x7F);
+		}
+		else 
+		{
+			midi.sendShortMsg(0x90,51,0x00);
+			midi.sendShortMsg(0x90,52,0x00);
+		}
+	}
+	else if (((group == "[Channel2]") && (deckB == 2)) || ((group == "[Channel4]") && (deckB == 4)))
+	{
+		if (value)
+		{
+			midi.sendShortMsg(0x90,71,0x7F);
+			midi.sendShortMsg(0x90,72,0x7F);
+		}
+		else 
+		{
+			midi.sendShortMsg(0x90,71,0x00);
+			midi.sendShortMsg(0x90,72,0x00);
+		}
 	}
 };
 
