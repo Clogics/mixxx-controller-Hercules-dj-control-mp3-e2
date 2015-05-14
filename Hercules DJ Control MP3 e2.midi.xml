@@ -140,9 +140,9 @@
         <status>0x90</status>
         <midino>0x10</midino>
         <group>[Channel1]</group>
-        <key>pfl</key>
+        <key>HerculesMP3e2.pfl</key>
         <options>
-          <Button/>
+          <Script-Binding/>
         </options>
       </control>
       <control>
@@ -302,9 +302,9 @@
         <status>0x90</status>
         <midino>0x24</midino>
         <group>[Channel2]</group>
-        <key>pfl</key>
+        <key>HerculesMP3e2.pfl</key>
         <options>
-          <Button/>
+          <Script-Binding/>
         </options>
       </control>
       <control>
@@ -428,36 +428,36 @@
         <status>0xB0</status>
         <midino>0x34</midino>
         <group>[Channel1]</group>
-        <key>volume</key>
+        <key>HerculesMP3e2.volume</key>
         <options>
-          <normal/>
+          <Script-Binding/>
         </options>
       </control>
       <control>
         <status>0xB0</status>
         <midino>0x35</midino>
         <group>[Channel1]</group>
-        <key>filterHigh</key>
+        <key>HerculesMP3e2.filterHigh</key>
         <options>
-          <normal/>
+          <Script-Binding/>
         </options>
       </control>
       <control>
         <status>0xB0</status>
         <midino>0x36</midino>
         <group>[Channel1]</group>
-        <key>filterMid</key>
+        <key>HerculesMP3e2.filterMid</key>
         <options>
-          <normal/>
+          <Script-Binding/>
         </options>
       </control>
       <control>
         <status>0xB0</status>
         <midino>0x37</midino>
         <group>[Channel1]</group>
-        <key>filterLow</key>
+        <key>HerculesMP3e2.filterLow</key>
         <options>
-          <normal/>
+          <Script-Binding/>
         </options>
       </control>
       <control>
@@ -473,211 +473,40 @@
         <status>0xB0</status>
         <midino>0x39</midino>
         <group>[Channel2]</group>
-        <key>volume</key>
+        <key>HerculesMP3e2.volume</key>
         <options>
-          <normal/>
+          <Script-Binding/>
         </options>
       </control>
       <control>
         <status>0xB0</status>
         <midino>0x3A</midino>
         <group>[Channel2]</group>
-        <key>filterHigh</key>
+        <key>HerculesMP3e2.filterHigh</key>
         <options>
-          <normal/>
+          <Script-Binding/>
         </options>
       </control>
       <control>
         <status>0xB0</status>
         <midino>0x3B</midino>
         <group>[Channel2]</group>
-        <key>filterMid</key>
+        <key>HerculesMP3e2.filterMid</key>
         <options>
-          <normal/>
+          <Script-Binding/>
         </options>
       </control>
       <control>
         <status>0xB0</status>
         <midino>0x3C</midino>
         <group>[Channel2]</group>
-        <key>filterLow</key>
+        <key>HerculesMP3e2.filterLow</key>
         <options>
-          <normal/>
+          <Script-Binding/>
         </options>
       </control>
     </controls>
     <!-- LEDs CONFIGURATION -->
-    <outputs>
-      <output>
-        <group>[Channel1]</group>
-        <key>pfl</key>
-        <status>0x90</status>
-        <midino>0x10</midino>
-        <minimum>0.5</minimum>
-        <maximum>1</maximum>
-      </output>
-      <output>
-        <group>[Channel2]</group>
-        <key>pfl</key>
-        <status>0x90</status>
-        <midino>0x24</midino>
-        <minimum>0.5</minimum>
-        <maximum>1</maximum>
-      </output>
-      <output>
-        <group>[Channel1]</group>
-        <key>play</key>
-        <status>0x90</status>
-        <midino>0x0f</midino>
-        <minimum>0.5</minimum>
-        <maximum>1</maximum>
-      </output>
-      <output>
-        <group>[Channel2]</group>
-        <key>play</key>
-        <status>0x90</status>
-        <midino>0x23</midino>
-        <minimum>0.5</minimum>
-        <maximum>1</maximum>
-      </output>
-		<output>
-        <group>[Channel1]</group>
-        <key>loop_enabled</key>
-        <status>0x90</status>
-        <midino>51</midino>
-        <minimum>0.5</minimum>
-        <maximum>1</maximum>
-      </output>
-		<output>
-        <group>[Channel1]</group>
-        <key>loop_enabled</key>
-        <status>0x90</status>
-        <midino>52</midino>
-        <minimum>0.5</minimum>
-        <maximum>1</maximum>
-      </output>
-		<output>
-        <group>[Channel2]</group>
-        <key>loop_enabled</key>
-        <status>0x90</status>
-        <midino>71</midino>
-        <minimum>0.5</minimum>
-        <maximum>1</maximum>
-      </output>
-		<output>
-        <group>[Channel2]</group>
-        <key>loop_enabled</key>
-        <status>0x90</status>
-        <midino>72</midino>
-        <minimum>0.5</minimum>
-        <maximum>1</maximum>
-      </output>
-		<output>
-        <group>[Channel2]</group>
-        <key>loop_start_position</key>
-        <status>0x90</status>
-        <midino>01</midino>
-        <minimum>0</minimum>
-        <maximum>10000000</maximum>
-      </output>
-<!--
-       <output>
-        <group>[Channel1]</group>
-        <key>flanger</key>
-        <status>0x90</status>
-        <midino>67</midino>
-        <minimum>0.5</minimum>
-        <maximum>1</maximum>
-      </output>
-      <output>
-        <group>[Channel2]</group>
-        <key>flanger</key>
-        <status>0x90</status>
-        <midino>87</midino>
-        <minimum>0.5</minimum>
-        <maximum>1</maximum>
-      </output>
--->
-      <output>
-        <group>[Channel1]</group>
-        <key>hotcue_1_enabled</key>
-        <status>0x90</status>
-        <midino>5</midino>
-        <minimum>0.5</minimum>
-        <maximum>1</maximum>
-      </output>
-      <output>
-        <group>[Channel1]</group>
-        <key>hotcue_2_enabled</key>
-        <status>0x90</status>
-        <midino>6</midino>
-        <minimum>0.5</minimum>
-        <maximum>1</maximum>
-      </output>
-      <output>
-        <group>[Channel1]</group>
-        <key>hotcue_3_enabled</key>
-        <status>0x90</status>
-        <midino>7</midino>
-        <minimum>0.5</minimum>
-        <maximum>1</maximum>
-      </output>
-      <output>
-        <group>[Channel1]</group>
-        <key>hotcue_4_enabled</key>
-        <status>0x90</status>
-        <midino>8</midino>
-        <minimum>0.5</minimum>
-        <maximum>1</maximum>
-      </output>
-      <output>
-        <group>[Channel2]</group>
-        <key>hotcue_1_enabled</key>
-        <status>0x90</status>
-        <midino>25</midino>
-        <minimum>0.5</minimum>
-        <maximum>1</maximum>
-      </output>
-      <output>
-        <group>[Channel2]</group>
-        <key>hotcue_2_enabled</key>
-        <status>0x90</status>
-        <midino>26</midino>
-        <minimum>0.5</minimum>
-        <maximum>1</maximum>
-      </output>
-      <output>
-        <group>[Channel2]</group>
-        <key>hotcue_3_enabled</key>
-        <status>0x90</status>
-        <midino>27</midino>
-        <minimum>0.5</minimum>
-        <maximum>1</maximum>
-      </output>
-      <output>
-        <group>[Channel2]</group>
-        <key>hotcue_4_enabled</key>
-        <status>0x90</status>
-        <midino>28</midino>
-        <minimum>0.5</minimum>
-        <maximum>1</maximum>
-      </output>
-      <!--<output>
-        <group>[Channel1]</group>
-        <key>playposition</key>
-        <status>0x90</status>
-        <midino>0x3F</midino>
-        <minimum>0.8</minimum>
-        <maximum>0.99</maximum>
-      </output>
-      <output>
-        <group>[Channel2]</group>
-        <key>playposition</key>
-        <status>0x90</status>
-        <midino>0x53</midino>
-        <minimum>0.8</minimum>
-        <maximum>0.99</maximum>
-      </output> -->
-    </outputs>
+    <outputs/>
   </controller>
 </MixxxMIDIPreset>

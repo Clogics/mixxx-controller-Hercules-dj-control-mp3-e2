@@ -8,3 +8,4 @@ Changes from last mapping posted on Mixxx forums
 - Add load and play for sampler1 and sampler 2
 - Added Quick filter action to supershifted pitch knob
 - Added Sync-master to Master Tempo key (blinking led: master, fixed led: follower, led off: none). Moved Magnet to Supershift-Master tempo. Removed one-button loops.
+- Made the controler 4-deck compatible
