@@ -8,6 +8,9 @@ Version 1.12 of Mixxx is now in beta.
 
 Here, you will find configuration files (xml MIDI mapping file and associated javascript file) for mixxx 1.12 to use the DJ Control MP3 e2 MIDI controller from Hercules. 
 
+It extends the controller by using 2 levels of "shift", allowing to have 3 functions on each button/knob.
+This mapping is 4-deck compatible and implements a deck switch. You can assign deck A to Channel 1 or 3 and deck B to Channel 2 or 4.
+
 Installation
 ----------------
 
@@ -18,20 +21,3 @@ Mapping
 ------------
 
 Mapping is decribed in the [PDF file](https://github.com/sblaisot/mixxx-controller-Hercules-dj-control-mp3-e2/blob/master/Mapping%20for%20Mixxx.pdf)
-
-Status
--------
-
-This configuration is work in progress. you can encounter bugs when using it.
-More work has to be done.
-
-In progress
------------
-
-Work on 4-deck compatible mapping is in progress. You can check it in the 4-deck branch.
-Be warn that 4-deck mapping is under heavy development and not all controls are working with switched decks
-
-TODO
-------
-
-- Add deck shift to make it 4-decks compatible (Supershift-LoadA/B)
