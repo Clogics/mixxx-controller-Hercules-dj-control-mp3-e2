@@ -161,8 +161,8 @@ HerculesMP3e2.init = function (id)
 	
 	// Switch-on some LEDs for improve the usability
 	midi.sendShortMsg(0x90, 46, 0x7F);	// Automix LED
-	midi.sendShortMsg(0x90, 14, 0x7F);	// Cue deck A LED
-	midi.sendShortMsg(0x90, 34, 0x7F);	// Cue deck B LED
+	//midi.sendShortMsg(0x90, 14, 0x7F);	// Cue deck A LED
+	//midi.sendShortMsg(0x90, 34, 0x7F);	// Cue deck B LED
 	
 	if (debug)
 		print("*** Connecting controls of deck A to [Channel"+deckA+"]");
