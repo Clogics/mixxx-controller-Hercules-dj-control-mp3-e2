@@ -287,7 +287,7 @@ HerculesMP3e2.loadTrack = function (midino, control, value, status, group)
 				
 				HerculesMP3e2.connectControl(deckA); // make new connected controls for deckA
 				HerculesMP3e2.updateLeds(deckA); 
-				deckANeedSoftVolTakeOver=true;
+				deckANeedVolSoftTakeOver=true;
 
 				if (debug)
 					print("*** Switched Deck A to [Channel"+deckA+"]");
@@ -301,7 +301,7 @@ HerculesMP3e2.loadTrack = function (midino, control, value, status, group)
 				
 				HerculesMP3e2.connectControl(deckB); // make new connected controls for deckB
 				HerculesMP3e2.updateLeds(deckB); 
-				deckBNeedSoftVolTakeOver=true;
+				deckBNeedVolSoftTakeOver=true;
 				
 				if (debug)
 					print("*** Switched Deck B to [Channel"+deckB+"]");
