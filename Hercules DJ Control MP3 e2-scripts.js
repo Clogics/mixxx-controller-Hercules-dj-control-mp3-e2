@@ -122,7 +122,7 @@ HerculesMP3e2.connectControl = function (deck, remove)
 	engine.connectControl("[Channel"+deck+"]", "hotcue_2_enabled", "HerculesMP3e2.hotcueLeds", remove);
 	engine.connectControl("[Channel"+deck+"]", "hotcue_3_enabled", "HerculesMP3e2.hotcueLeds", remove);
 	engine.connectControl("[Channel"+deck+"]", "hotcue_4_enabled", "HerculesMP3e2.hotcueLeds", remove);
-	engine.connectControl("[Channel"+deck+"]", "sync_mode", "HerculesMP3e2.syncmode", remove);
+	engine.connectControl("[Channel"+deck+"]", "sync_enabled", "HerculesMP3e2.syncmode", remove);
 	engine.connectControl("[Channel"+deck+"]", "pfl", "HerculesMP3e2.pflLeds", remove);
 }
 
@@ -145,7 +145,7 @@ HerculesMP3e2.updateLeds = function (deck)
 	engine.trigger("[Channel"+deck+"]", "hotcue_2_enabled");
 	engine.trigger("[Channel"+deck+"]", "hotcue_3_enabled");
 	engine.trigger("[Channel"+deck+"]", "hotcue_4_enabled");
-	engine.trigger("[Channel"+deck+"]", "sync_mode");
+	engine.trigger("[Channel"+deck+"]", "sync_enabled");
 	engine.trigger("[Channel"+deck+"]", "pfl");
 }
 
@@ -244,13 +244,15 @@ HerculesMP3e2.masterTempo = function (midino, control, value, status, group)
 		if (value)
 			engine.setValue(deck, "quantize", !(engine.getValue(deck, "quantize")));
         }
-	else if (superButtonHold == 1 && value && scratchMode == 0)
+	else if (superButtonHold == 1)
 	{
-        	engine.setValue(deck, "keylock", (engine.getValue(deck, "keylock") == 0) ? 1 : 0);
+        	if (value && scratchMode == 0)
+			engine.setValue(deck, "keylock", (engine.getValue(deck, "keylock") == 0) ? 1 : 0);
 	}
-	else if (value)
+	else
 	{
-		engine.setValue(deck, "sync_mode", (engine.getValue(deck, "sync_mode") != 0) ? 0 : 2);
+		if (value)
+			engine.setValue(deck, "sync_enabled", (engine.getValue(deck, "sync_enabled") == 0) ? 1 : 0);
 	}
 };
 
@@ -854,7 +856,12 @@ HerculesMP3e2.jogWheel = function (midino, control, value, status, group)
 // drive master tempo led connected to sync_mode
 HerculesMP3e2.syncmode = function (value, group, control)
 {	
-	if (value == 2) //Master => Blink
+	// Following code was used for sync_master control.
+	// Deactivated for now due to https://bugs.launchpad.net/mixxx/+bug/1456801
+	// currently (2015-05-20) explicit master mode is not supported.
+	// Switched to sync_enabled (binary) control
+	
+/*	if (value == 2) //Master => Blink
 	{
 		if (((group == "[Channel1]") && (deckA == 1)) || ((group == "[Channel3]") && (deckA == 3)))
 		{
@@ -867,7 +874,9 @@ HerculesMP3e2.syncmode = function (value, group, control)
 			midi.sendShortMsg(0x90,87,0x7F); //blink on
 		}
 	}
-	else if (value == 1) //Follower => fixed
+	else */
+	
+	if (value == 1) // Sync_enabled => fixed
 	{
 		if (((group == "[Channel1]") && (deckA == 1)) || ((group == "[Channel3]") && (deckA == 3))) 
 		{
