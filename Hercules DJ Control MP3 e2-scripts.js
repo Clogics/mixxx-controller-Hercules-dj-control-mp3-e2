@@ -271,12 +271,10 @@ HerculesMP3e2.loadTrack = function (midino, control, value, status, group)
 			if (control == 0x11)
 			{ 
 				HerculesMP3e2.connectControl(deckA, true); // remove connected controls for deckA
-				deckA = (deckA == 1) ? 3 : 1; //Switch Deck
-				if (deckA == 3)
-					midi.sendShortMsg(0x90, 44, 0x7F); // Folder Led On if Deck A = [Channel3]
-				else
-					midi.sendShortMsg(0x90, 44, 0x00); // Folder Led Off if Deck A = [Channel1]
-				
+
+				deckA = (deckA == 1) ? 3 : 1; // Switch Deck
+				midi.sendShortMsg(0x90, 44, (deckA == 3) ? 0x7F : 0x00); // Folder Led On if DeckA = [Channel3] or Off if DeckA = [Channel1]
+
 				HerculesMP3e2.connectControl(deckA); // Connect new controls for deckA
 				HerculesMP3e2.updateLeds(deckA);  // Update all leds for deckA according to new Channel
 				deckANeedVolSoftTakeOver=true;
@@ -285,11 +283,9 @@ HerculesMP3e2.loadTrack = function (midino, control, value, status, group)
 					print("*** Switched Deck A to [Channel"+deckA+"]");
 			} else {
 				HerculesMP3e2.connectControl(deckB, true); // remove connected controls for deckB
-				deckB = (deckB == 2) ? 4 : 2;
-				if (deckB == 4)
-					midi.sendShortMsg(0x90, 43, 0x7F); // Folder Led On if Deck B = [Channel4]
-				else
-					midi.sendShortMsg(0x90, 43, 0x00); // Folder Led Off if Deck B = [Channel2]
+
+				deckB = (deckB == 2) ? 4 : 2; // Switch Deck
+				midi.sendShortMsg(0x90, 43, (deckB == 4) ? 0x7F : 0x00); // Folder Led On if DeckB = [Channel4] or Off if DeckB = [Channel2]
 				
 				HerculesMP3e2.connectControl(deckB); // Connect new controls for deckB
 				HerculesMP3e2.updateLeds(deckB);  // Update all leds for DeckB according to new Channel
@@ -324,40 +320,25 @@ HerculesMP3e2.scroll = function (midino, control, value, status, group)
 	// Shifted: play sampler
 	// Supershifted: stop sampler
 	
-        var deck = "";
+	var deck = "";
+	if (control == 0x2C)
+		deck = "[Sampler"+deckA+"]";
+	else
+		deck = "[Sampler"+deckB+"]"
 
-       	if (superButtonHold == 2)
+	if (value)
 	{
-		if (value)
+		if (superButtonHold == 2)
 		{
-			if (control == 0x2C)
-				deck = "[Sampler"+deckA+"]";
-			else
-				deck = "[Sampler"+deckB+"]"
-
-				engine.setValue(deck,"start_stop",1);
+			engine.setValue(deck,"start_stop",1);
 		}
-		
-	}
-	else if (superButtonHold == 1)
-	{
-		if (value)
+		else if (superButtonHold == 1)
 		{
-			if (control == 0x2C)
-				deck = "[Sampler"+deckA+"]";
-			else
-				deck = "[Sampler"+deckB+"]"
-
 			engine.setValue(deck, "cue_gotoandplay", 1);
 		}
-		
-	} else {
-		if (value == 0x7F) 
+		else
 		{
-			if (control == 0x2C)
-				engine.setValue("[Playlist]", "ToggleSelectedSidebarItem", value ? 1 : 0); 
-			else 
-				engine.setValue("[Playlist]", "ToggleSelectedSidebarItem", value ? 1 : 0);
+			engine.setValue("[Playlist]", "ToggleSelectedSidebarItem", 1); 
 		}
 	}
 };
