@@ -118,6 +118,11 @@ HerculesMP3e2.connectControl = function (deck, remove)
 	engine.connectControl("[Channel"+deck+"]", "sync_enabled", "HerculesMP3e2.syncmode", remove);
 	engine.connectControl("[Channel"+deck+"]", "pfl", "HerculesMP3e2.pflLeds", remove);
 	if (debug)
+		print("*** "+(remove == true) ? "Disable" : "Enable" + " soft takeover for [EqualizerRack1_[Channel"+deck+"]_Effect1].parameter[1-3]");
+	engine.softTakeover("[EqualizerRack1_[Channel"+deck+"]_Effect1]", "parameter1", (remove == true) ? false : true);
+	engine.softTakeover("[EqualizerRack1_[Channel"+deck+"]_Effect1]", "parameter2", (remove == true) ? false : true);
+	engine.softTakeover("[EqualizerRack1_[Channel"+deck+"]_Effect1]", "parameter3", (remove == true) ? false : true);
+	if (debug)
 		print("*** "+(remove == true) ? "Disable" : "Enable" + " soft takeover for [Channel"+deck+"].volume");
 	engine.softTakeover("[Channel"+deck+"]", "volume", (remove == true) ? false : true);
 }
